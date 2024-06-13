@@ -1,0 +1,19 @@
+<html>
+    <head>
+        <title>{{ title }} - X-Country</title>
+        <link rel="stylesheet" href="/app/templates/style.css"> 
+    </head>
+    <body>
+        <div>
+            The X-Country Forum:
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('register') }}">Register</a>
+            <a href="{{ url_for('admincreate') }}">AthleteMaker</a>
+        </div>
+        <main>
+            {% block content %}
+            {% endblock %}
+        </main>
+    </body>
+</html>

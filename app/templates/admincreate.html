@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Admin things</h1>
+<div id="content">
+    <form method="POST" action="">
+        <h2>Create an athlete</h2>
+        <input type="text" name="fname" placeholder="First name" required>
+        <input type="text" name="lname" placeholder="Last name" required>
+        <input type="text" name="acode" placeholder="Athlete Number" required>
+        <label for="agegroup">Choose an agegroup:</label>
+        <select id="agegroup" name="agegroup">
+            <option value="Junior">Junior</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Senior">Senior</option>
+        </select>
+        <input type="submit">
+    </form>
+</div>
+
+
+{% endblock %}
