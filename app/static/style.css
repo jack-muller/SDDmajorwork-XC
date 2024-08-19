@@ -1,0 +1,22 @@
+p {
+    color:chocolate
+    line
+}
+
+body {
+    background-color: blueviolet
+
+}
+
+button {
+    padding: 10px 15px;
+    margin: 0 5px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
