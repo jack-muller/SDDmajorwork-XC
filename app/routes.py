@@ -18,6 +18,7 @@ def index():
         }
     ]
     return render_template('index.html', title='Home', posts=posts, userCurrent=user)
+
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     # form = LoginForm()
