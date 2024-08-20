@@ -176,8 +176,12 @@ def register():
 
 
 @app.route('/adminpage', methods=['POST', 'GET'])
-def adminpage:
-    return render_template('adminonly.html', title='adminonly')
-
-
-
+def adminpage():
+    if (request.method == "POST"):
+        admintag = request.form['lusername']
+        return render_template('adminpage.html', title='adminpage')
+    else:
+        # return redirect(url_for('login'))
+        print('wee woo')
+        return redirect(url_for('login'))
+    

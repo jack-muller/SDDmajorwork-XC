@@ -9,22 +9,11 @@
             <a href="{{ url_for('index') }}">Home</a>
             <a href="{{ url_for('login') }}">Login</a>
             <a href="{{ url_for('register') }}">Register</a>
-            <a href="{{ url_for('admincreate') }}">AthleteMaker</a>
-            <button id="button1">user mode</button>
-            <button id="button2">admin mode</button>
+            <a href="{{ url_for('adminpage') }}">AthleteMaker</a>
         </div>
         <main>
             {% block content %}
             {% endblock %}
         </main>
-        <script>
-            document.getElementById('button1').addEventListener('click', function() {
-                alert('Button 1 was clicked!')
-            });
-    
-            document.getElementById('button2').addEventListener('click', function() {
-                alert('Button 2 was clicked!');
-            });
-        </script>
     </body>
 </html>
