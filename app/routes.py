@@ -1,7 +1,40 @@
 from app import app
+
 from flask import render_template, flash, redirect, url_for, request
 #from app.forms import LoginForm
 import bcrypt
+
+# def load_users():
+#     users = []
+#     with open("app/users.txt", "r") as file:
+#         for line in file:
+#             # Split each line by commas
+#             username,password,firstname,lastname,admintag = line.strip().split('|')
+#             # Append the athlete data to the list as a dictionary
+#             users.append({
+#                 'uname': username,
+#                 'pword': password,
+#                 'fname': firstname,
+#                 'lname': lastname, 
+#                 'atag': admintag,
+#             })
+#     return users
+
+# users = load_users()
+
+# print(users)
+
+# class User():
+#     def __init__(self, username, password, firstname, lastname, admintag):
+#         self.id = username
+#         self.status = users[admintag]['status']
+
+#     def get_status(self):
+#         return self.status
+
+#     def toggle_status(self):
+#         users[self.id]['status'] = not users[self.id]['status']
+#         self.status = users[self.id]['status']
 
 @app.route('/')
 @app.route('/index')

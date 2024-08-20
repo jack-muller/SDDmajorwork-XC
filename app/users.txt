@@ -1,8 +1,8 @@
 username|password|firstname|lastname|admintag
 john1234|b'$2b$12$terrycrewsisabigboy.Iu1QlGIpbQThohzX/C8HNen5qgNOGCVPm'|David|Lemon|1
-hello|b'$2b$12$terrycrewsisabigboy.IuyYM5xZq22oWOSZ0twdZtJeDi9QSA332'|bonjour|man
-toiletman|b'$2b$12$terrycrewsisabigboy.IuKOirHTeCrfdiF9GcdcRkYChButn88T6'|miles|carson
-yo|b'$2b$12$terrycrewsisabigboy.IuzyphLFyjbQ9x3Bu9XLzxxTk1FtLf6jC'|yoyo|ma
-when|b'$2b$12$terrycrewsisabigboy.IuLinFSu7fP/XMkOx1AKH5X02ApkhVqni'|did he|ask
-hello|b'$2b$12$terrycrewsisabigboy.IuyYM5xZq22oWOSZ0twdZtJeDi9QSA332'|bonjour|man
-connor|b'$2b$12$terrycrewsisabigboy.IuZQRkoArFYykIuAtHuJhETVlUfUyLBum'|connor|kellett
+hello|b'$2b$12$terrycrewsisabigboy.IuyYM5xZq22oWOSZ0twdZtJeDi9QSA332'|bonjour|man|1
+toiletman|b'$2b$12$terrycrewsisabigboy.IuKOirHTeCrfdiF9GcdcRkYChButn88T6'|miles|carson|1
+yo|b'$2b$12$terrycrewsisabigboy.IuzyphLFyjbQ9x3Bu9XLzxxTk1FtLf6jC'|yoyo|ma|0
+when|b'$2b$12$terrycrewsisabigboy.IuLinFSu7fP/XMkOx1AKH5X02ApkhVqni'|did he|ask|1
+hello|b'$2b$12$terrycrewsisabigboy.IuyYM5xZq22oWOSZ0twdZtJeDi9QSA332'|bonjour|man|1
+connor|b'$2b$12$terrycrewsisabigboy.IuZQRkoArFYykIuAtHuJhETVlUfUyLBum'|connor|kellett|1
