@@ -87,11 +87,22 @@ def register():
         newpassword = request.form['rpassword']
         newfirstname = request.form['rfname']
         newlastname = request.form['rlname']
+        newadmintag = request.form['atag']
         newusernameCheck = True
         newpasswordCheck = True
         newusernametaken = False
         newfirstnameCheck = True
         newlastnameCheck = True
+        validadmintag = True
+
+        if validadmintag == True:
+            print("checking if admin is a number")
+            if newadmintag.isnumeric() == True:
+                print("yup")
+            else:
+                validadmintag = False
+                print("wompwomp not a number")
+
 
         if newusernameCheck == True:
             print("im checking whether the username is sweet")
@@ -149,10 +160,10 @@ def register():
             return strHashPass
 
 
-        if newfirstnameCheck and newlastnameCheck and newpasswordCheck and newusernameCheck:
+        if newfirstnameCheck and newlastnameCheck and newpasswordCheck and newusernameCheck and validadmintag:
             print("time to write to the file")
             # write all of the things into a file:
-            f.write(f'\n{newusername}|{passwordencryptor(newpassword)}|{newfirstname}|{newlastname}')
+            f.write(f'\n{newusername}|{passwordencryptor(newpassword)}|{newfirstname}|{newlastname}|{newadmintag}')
             f.close()
             return redirect(url_for('login'))
         else:
@@ -162,18 +173,11 @@ def register():
         # return redirect(url_for('login'))
         print('wee woo')
         return render_template('register.html', title='Register')
-   
-@app.route('/admincreate', methods=['POST', 'GET'])       
-def admincreate(): 
-    if (request.method == "POST"):
-        f = open("app/athletes.txt", "r+")  
-        newfname = request.form['fname']
-        newlname = request.form['lname']
-        newacode = request.form['acode']
-        newagegroup = request.form['agegroup'] 
-    else:
-        # return redirect(url_for('login'))
-        print('wuh wuh')
-        return render_template('admincreate.html', title='Register') 
 
-    return render_template('admincreate.html', title='Athlete Maker')
+
+@app.route('/adminpage', methods=['POST', 'GET'])
+def adminpage:
+    return render_template('adminonly.html', title='adminonly')
+
+
+
