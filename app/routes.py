@@ -37,6 +37,12 @@ import bcrypt
 #         self.status = users[self.id]['status']
 
 @app.route('/')
+
+@app.route('/landingpage')
+def landingpage():
+    return render_template('landingpage.html', title='landingpage')
+
+
 @app.route('/index')
 def index():
     user = {"username": "MrLankyBean"}
