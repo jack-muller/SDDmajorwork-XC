@@ -4,15 +4,23 @@
         <title>X-Country page</title> 
     </head>
     <body>
-        <div>
+        <div class="container">
+            <header>
+                <h1>XC Page</h1>
+            </header>
+            <main>
+                <h2>Welcome!</h2>
+                <p>The official page for GPS Cross Country, Statistic generation, Scoring systems and a live forum!</p>
+                <div class="button-container">
+                    <a href="{{ url_for('login') }}">
+                        <button>Login</button>
+                    </a>
+                    <a href="{{ url_for('register') }}">
+                        <button>Register</button>   
+                </div>
+            </main>
         </div>
-        <main>
-            <a href="{{ url_for('login') }}">
-                <button>Login</button>
-              </a> 
-            <a href="{{ url_for('register') }}">
-                <button>Register</button>
-            </a>              
-        </main>
     </body>
 </html>
+
+<!-- <button onclick="location.href='#';">Register</button> -->
