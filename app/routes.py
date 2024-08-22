@@ -42,8 +42,8 @@ def landingpage():
     return render_template('landingpage.html', title='landingpage')
 
 
-@app.route('/index')
-def index():
+@app.route('/home')
+def home():
     user = {"username": "MrLankyBean"}
     posts = [
         {
@@ -55,7 +55,7 @@ def index():
             'body': "what a ruckus"
         }
     ]
-    return render_template('index.html', title='Home', posts=posts, userCurrent=user)
+    return render_template('home.html', title='Home', posts=posts, userCurrent=user)
 
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -75,7 +75,7 @@ def login():
             v = i.split("|")
             if (v[0] == usernameEntered):
                 if (strHashPass == v[1]):
-                    return redirect(url_for('index'))
+                    return redirect(url_for('home'))
         f.close()
         return redirect(url_for('login'))
     else:

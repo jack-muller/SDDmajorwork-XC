@@ -1,16 +1,18 @@
 <html>
     <head>
         <title>{{ title }} - X-Country</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> 
+        <link rel="stylesheet" href="{{ url_for('static', filename='header.css') }}"> 
     </head>
     <body>
-        <div>
-            The X-Country Forum:
-            <a href="{{ url_for('index') }}">Home</a>
-            <a href="{{ url_for('login') }}">Login</a>
-            <a href="{{ url_for('register') }}">Register</a>
-            <a href="{{ url_for('adminpage') }}">AthleteMaker</a>
-        </div>
+        <header class="navbar">
+            <div class="navbar-brand">XC Page</div>
+            <ul class="navbar-links">
+              <li><a href="{{ url_for('home') }}">Home</a></li>
+              <li><a href="{{ url_for('scorer') }}">Scorer (DON'T CLICK)</a></li>
+              <li><a href="{{ url_for('previous_results') }}">Previous Results (DON'T CLICK) </a></li>
+              <li><a href="{{ url_for('adminpage') }}">AthleteMaker</a></li>
+            </ul>
+        </header>
         <main>
             {% block content %}
             {% endblock %}
