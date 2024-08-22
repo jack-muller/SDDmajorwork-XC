@@ -185,9 +185,17 @@ def register():
 def adminpage():
     if (request.method == "POST"):
         admintag = request.form['lusername']
-        return render_template('adminpage.html', title='adminpage')
+        return render_template('adminpage.html', title='Adminpage')
     else:
         # return redirect(url_for('login'))
         print('wee woo')
         return redirect(url_for('login'))
     
+
+@app.route('/previous_results', methods=['POST', 'GET'])
+def previousresults():
+    return render_template('previous_results.html', title='Previous_results')   
+
+@app.route('/scorer', methods=['POST', 'GET'])
+def scorer():
+    return render_template('scorer.html', title='Scorer') 
