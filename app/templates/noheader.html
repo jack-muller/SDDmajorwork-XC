@@ -1,0 +1,15 @@
+<html>
+    <head>
+        <title>{{ title }} - X-Country</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> 
+    </head>
+    <body>
+        <div>
+            The X-Country Forum:
+        </div>
+        <main>
+            {% block content %}
+            {% endblock %}
+        </main>
+    </body>
+</html>

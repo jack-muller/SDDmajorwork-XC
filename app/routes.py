@@ -37,7 +37,6 @@ import bcrypt
 #         self.status = users[self.id]['status']
 
 @app.route('/')
-
 @app.route('/landingpage')
 def landingpage():
     return render_template('landingpage.html', title='landingpage')
@@ -57,6 +56,7 @@ def index():
         }
     ]
     return render_template('index.html', title='Home', posts=posts, userCurrent=user)
+
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():

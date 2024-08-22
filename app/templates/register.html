@@ -1,16 +1,24 @@
-{% extends "base.html" %}
+{% extends "noheader.html" %}
 
 {% block content %}
 
 <h1>Register</h1>
-<div id="content">
+<div class="login-container">
     <form method="POST" action="">
-        <h2>Register</h2>
-        <input type="text" name="rusername" placeholder="Username" required>
-        <input type="text" name="rpassword" placeholder="Password" required>
-        <input type="text" name="rfname" placeholder="First Name" required>
-        <input type="text" name="rlname" placeholder="Last Name" required>
-        <input type="text" name="atag" placeholder="Admin? 1 or 0" required>
+        <label for="username">Username</label>
+        <input type="text" id="username" name="rusername" placeholder="Username" required>
+        
+        <label for="password">Password</label>
+        <input type="text" id="password" name="rpassword" placeholder="Password" required>
+        
+        <label for="fname">First Name</label>
+        <input type="text" id="fname" name="rfname" placeholder="Enter First Name" required>
+
+        <label for="lname">Last Name</label>
+        <input type="text" id="lname" name="rlname" placeholder="Last Name" required>
+        
+        <label for="admin">Admin identifier</label>
+        <input type="text" id="admin" name="atag" placeholder="Enter 1 or 0" required>
         <input type="submit">
     </form>
 </div>
