@@ -1,2 +1,3 @@
 
-Kalani|Costello|100004|Senior
+George|Verco|100191|Juniorediate
+running|man|100000|Junior

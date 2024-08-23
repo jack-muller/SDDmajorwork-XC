@@ -191,9 +191,8 @@ def register():
 
 @app.route('/athletemaker', methods=['POST', 'GET'])
 def athletemaker():
-    print(f'{request.method}')
     if (request.method == "POST"):
-        f = open("app/athletes.txt", "r+")
+        f = open("app/athletes.txt", "a")
         firstname = request.form['fname']
         lastname = request.form['lname']
         athletenumber = request.form['acode']
@@ -205,32 +204,48 @@ def athletemaker():
         if athletenumbervalid == True:
                 print("checking if athleteno. is a number")
                 if athletenumber.isnumeric() == True:
-                    print("yup")
+                    print("Athlete number is numeric")
                 else:
                     athletenumbervalid = False
                     print("wompwomp not a number")
-
+        
+        print('next')
+        
         if firstnamevalid == True:
             if firstname.isalpha() == True:
-                print("yup")
+                print("First name is alpha")
             else:
                 firstnamevalid = False
-
+                print("First name isn't alpha")
+        print('next')
         if lastnamevalid == True:
             if lastname.isalpha() == True:
-                print("yup")
+                print("Last name is alpha")
             else:
                 lastnamevalid = False
+                print("Last name is not alpha")
+
+        print(f'firstname: {firstname}')
+        print(f'is firstname valid: {firstnamevalid}')
+        print(f'lastname: {lastname}')
+        print(f'is last name valid: {lastnamevalid}')
+        print(f'athlete number: {athletenumber}')
+        print(f'is athlete no. valid: {athletenumbervalid}')
+        print(f'agegroup: {agegroup}')
+        
 
         if lastnamevalid and firstnamevalid and athletenumbervalid:
                 print("time to write to the file")
                 # write all of the things into a file:
+                
                 f.write(f'\n{firstname}|{lastname}|{athletenumber}|{agegroup}')
                 f.close()
                 #flash('Registration successful! Now you can log in!', 'success')
                 return render_template('athletemaker.html', title='Athlete Maker')
-
-        return render_template('athletemaker.html', title='Athlete Maker')
+        else: 
+            print("the checks failed - the new account details are funky")
+            error_message = "athlete not valid"
+            return render_template('athletemaker.html', title='Athlete Maker', error_message=error_message)
     
     else:
         # return redirect(url_for('login'))

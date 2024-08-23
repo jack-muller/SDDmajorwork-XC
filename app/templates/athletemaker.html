@@ -4,6 +4,13 @@
 
 <h1>Admin things</h1>
 <div id="content">
+    {% if error_message %}
+    <script>
+        window.onload = function() {
+            alert(`{{ error_message }}`)
+        }
+    </script>
+    {% endif %}
     <form method="POST" action="">
         <h2>Create an athlete</h2>
         
