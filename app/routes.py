@@ -121,6 +121,9 @@ def register():
             for i in f:
                 print("I'm checking whether someone else has the username")
                 v = i.split('|')
+                print(v)
+                print(f'this is the other guys username: "{v[0]}"')
+                print(f'this is the new username: "{newusername}"')
                 if v[0] == newusername:
                     newusernametaken = True
                     print("someone else has it")
@@ -166,7 +169,7 @@ def register():
             return strHashPass
 
 
-        if newfirstnameCheck and newlastnameCheck and newpasswordCheck and newusernameCheck and validadmintag:
+        if newfirstnameCheck and newlastnameCheck and newpasswordCheck and newusernameCheck and validadmintag and not newusernametaken:
             print("time to write to the file")
             # write all of the things into a file:
             f.write(f'\n{newusername}|{passwordencryptor(newpassword)}|{newfirstname}|{newlastname}|{newadmintag}')
