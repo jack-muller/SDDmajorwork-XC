@@ -10,3 +10,4 @@ hello|b'$2b$12$terrycrewsisabigboy.IuyYM5xZq22oWOSZ0twdZtJeDi9QSA332'|bonjour|ca
 yeet|b'$2b$12$terrycrewsisabigboy.IuyYM5xZq22oWOSZ0twdZtJeDi9QSA332'|frogman|manfrog|1
 hello|b'$2b$12$terrycrewsisabigboy.IuQgcl.ssm7h7UKgFlcHMz2OVmYdtQxKC'|dsgfhf|fdsgfhj|1
 hello|b'$2b$12$terrycrewsisabigboy.IuGktjRDpSM6miPcVAp6rLBbaG2r4ZokG'|dgsfhgjhkj,|dsgafhsgduhjt|1
+tong|b'$2b$12$terrycrewsisabigboy.IuLinFSu7fP/XMkOx1AKH5X02ApkhVqni'|toilet|aefsgrdht|1

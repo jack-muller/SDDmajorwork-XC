@@ -62,7 +62,9 @@ def home():
 def login():
     # form = LoginForm()
     # return render_template('login.html', title='Login', form=form)
+    print(f'{request.method}')
     if (request.method == "POST"):
+        print(f'{request.method} I am in')
         usernameEntered = request.form['lusername']
         passwordEntered = request.form['lpassword']
 
@@ -187,15 +189,53 @@ def register():
         return render_template('register.html', title='Register')
 
 
-@app.route('/adminpage', methods=['POST', 'GET'])
-def adminpage():
+@app.route('/athletemaker', methods=['POST', 'GET'])
+def athletemaker():
+    print(f'{request.method}')
     if (request.method == "POST"):
-        admintag = request.form['lusername']
-        return render_template('adminpage.html', title='Adminpage')
+        f = open("app/athletes.txt", "r+")
+        firstname = request.form['fname']
+        lastname = request.form['lname']
+        athletenumber = request.form['acode']
+        agegroup = request.form['agegroup']
+        athletenumbervalid = True
+        firstnamevalid = True
+        lastnamevalid = True
+
+        if athletenumbervalid == True:
+                print("checking if athleteno. is a number")
+                if athletenumber.isnumeric() == True:
+                    print("yup")
+                else:
+                    athletenumbervalid = False
+                    print("wompwomp not a number")
+
+        if firstnamevalid == True:
+            if firstname.isalpha() == True:
+                print("yup")
+            else:
+                firstnamevalid = False
+
+        if lastnamevalid == True:
+            if lastname.isalpha() == True:
+                print("yup")
+            else:
+                lastnamevalid = False
+
+        if lastnamevalid and firstnamevalid and athletenumbervalid:
+                print("time to write to the file")
+                # write all of the things into a file:
+                f.write(f'\n{firstname}|{lastname}|{athletenumber}|{agegroup}')
+                f.close()
+                #flash('Registration successful! Now you can log in!', 'success')
+                return render_template('athletemaker.html', title='Athlete Maker')
+
+        return render_template('athletemaker.html', title='Athlete Maker')
+    
     else:
         # return redirect(url_for('login'))
         print('wee woo')
-        return redirect(url_for('login'))
+        return render_template('athletemaker.html', title='Athlete Maker')
     
 
 @app.route('/previous_results', methods=['POST', 'GET'])
