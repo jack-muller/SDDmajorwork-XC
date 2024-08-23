@@ -3,20 +3,7 @@
         <title>{{ title }} - X-Country</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> 
     </head>
-    <body>
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <!-- <div class="alert alert-{{ category }}">{{ message }}</div> -->
-                    <script>
-                        window.onload = function() {
-                            alert(`${ messages }`)
-                        }
-                    </script>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-        
+    <body>      
         <div>
             The X-Country Forum:
         </div>

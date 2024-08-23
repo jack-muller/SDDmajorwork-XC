@@ -178,8 +178,8 @@ def register():
             return redirect(url_for('login'))
         else:
             print("the checks failed - the new account details are funky")
-            #flash('Registration failed. Please check your username and password.', 'error')
-            return redirect(url_for('register'))
+            error_message = "Registration failed. Username might be same as someone else's, or other details may be incorrect."
+            return render_template('register.html', title='Register', error_message=error_message)
     else:
         # return redirect(url_for('login'))
         print('wee woo')
