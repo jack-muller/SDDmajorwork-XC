@@ -1,6 +1,6 @@
 from app import app
 
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request, flash
 #from app.forms import LoginForm
 import bcrypt
 
@@ -174,13 +174,16 @@ def register():
             # write all of the things into a file:
             f.write(f'\n{newusername}|{passwordencryptor(newpassword)}|{newfirstname}|{newlastname}|{newadmintag}')
             f.close()
+            #flash('Registration successful! Now you can log in!', 'success')
             return redirect(url_for('login'))
         else:
             print("the checks failed - the new account details are funky")
+            #flash('Registration failed. Please check your username and password.', 'error')
             return redirect(url_for('register'))
     else:
         # return redirect(url_for('login'))
         print('wee woo')
+        #flash('ERROR. IDK WHAT HAPPENED', 'error')
         return render_template('register.html', title='Register')
 
 
