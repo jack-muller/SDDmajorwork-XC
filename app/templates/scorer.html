@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Scoring page</h1>
+
+<div class="button-container">
+        <button id="incrementbutton">New Season</button>
+    
+        <a href="{{ url_for('register') }}">
+        <button>Register</button>   
+</div>
+
+<span id="number">{{ number }}</span>
+
+<script>
+    document.getElementById('incrementBtn').addEventListener('click', function() {
+            fetch('/increment', {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('number').textContent = data.number;
+            })
+            .catch(error => console.error('Error:', error));
+        });
+</script>
+
+{% endblock %}

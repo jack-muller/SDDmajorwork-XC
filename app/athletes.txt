@@ -1,3 +1,6 @@
 
 George|Verco|100191|Juniorediate
 running|man|100000|Junior
+Horatio|Poltergeist|100004|Senior
+Horatio|Poltergeist|100004|Senior
+Horatio|Poltergeist|100004|Senior

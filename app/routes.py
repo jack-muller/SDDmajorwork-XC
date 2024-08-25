@@ -1,6 +1,7 @@
 from app import app
 
-from flask import render_template, flash, redirect, url_for, request, flash
+from flask import render_template, flash, redirect, url_for, request
+from flask import jsonify
 #from app.forms import LoginForm
 import bcrypt
 
@@ -260,3 +261,21 @@ def previousresults():
 @app.route('/scorer', methods=['POST', 'GET'])
 def scorer():
     return render_template('scorer.html', title='Scorer') 
+
+@app.route('/increment', methods=['POST'])
+def increment():
+    new_number = read_number() + 1
+    write_number(new_number)
+    return jsonify({'number': new_number})
+
+def read_number():
+    f = open("app/season.txt", "r")
+    print(f'{f}')
+    season_no = int(f.strip())
+    f.close()
+    return season_no
+
+def write_number(new_number):
+    f = open("app/season.txt", "w")
+    f.write(f'{new_number}')
+    pass
