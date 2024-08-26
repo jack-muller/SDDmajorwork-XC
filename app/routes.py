@@ -271,7 +271,7 @@ def increment():
 def read_number():
     f = open("app/season.txt", "r")
     print(f'{f}')
-    season_no = int(f.strip())
+    season_no = int(f.readline().strip())
     f.close()
     return season_no
 
