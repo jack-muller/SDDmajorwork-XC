@@ -1,0 +1,31 @@
+{% extends "noheader.html" %}
+
+{% block content %}
+
+<h1>New Race</h1>
+<div class="login-container">
+    <form method="POST" action="">
+        <label for="racename">Name of Race</label>
+        <input type="text" id="racename" name="nameofraceinput" placeholder="Enter name here" required>
+        <label for="agegroup">Choose an agegroup:</label>
+        <select id="agegroup" name="agegroupinput">
+            <option value="Junior">Junior</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Senior">Senior</option>
+        </select>
+        <label for="coordname">Coordinator Name</label> 
+        <input type="text" id="coordname" name="coordinatorinput" placeholder="Enter first and last name here" required>
+        <label for="course">Course Name</label> 
+        <select id="course" name="coursenameinput">
+            <option value="Kings">Kings School Grounds</option>
+            <option value="Riverview">Riverview School Grounds</option>
+            <option value="Upjohn">Upjohn Park</option>
+            <option value="Sydney">Sydney Park</option>
+            <option value="Centennial">Centennial Parklands</option>
+            <option value="Miranda">Miranda Park</option>
+        </select>
+        <input type="submit">
+    </form>
+</div>
+
+{% endblock %}

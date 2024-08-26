@@ -1,4 +1,5 @@
 from app import app
+import os
 
 from flask import render_template, flash, redirect, url_for, request
 from flask import jsonify
@@ -266,6 +267,10 @@ def scorer():
 def increment():
     new_number = read_number() + 1
     write_number(new_number)
+
+    new_dir = os.path.join('app', 'races', f'season{new_number}')
+    os.makedirs(new_dir, exist_ok=True)
+
     return jsonify({'number': new_number})
 
 def read_number():
@@ -279,3 +284,24 @@ def write_number(new_number):
     f = open("app/season.txt", "w")
     f.write(f'{new_number}')
     pass
+
+# @app.route('/newrace', methods=['POST', 'GET'])
+# def newrace():
+#     print(f'{request.method}')
+#     if (request.method == "POST"):
+#         print(f'{request.method} I am in')
+#         racenameentered = request.form['nameofraceinput'] 
+#         agegroupentered = request.form['agegroupinput']
+#         coordnameentered = request.form['coordinatorinput']
+#         coursenameentered = request.form['coursenameinput']
+#         f = open("app/users.txt", "r")
+#         for i in f:
+#             v = i.split("|")
+#             if (v[0] == usernameEntered):
+#                 if (strHashPass == v[1]):
+#                     return redirect(url_for('home'))
+#         f.close()
+#         return redirect(url_for('login'))
+#     else:
+#         return render_template('login.html', title='Login')
+#     return render_template('newrace.html', title='New Race')   
