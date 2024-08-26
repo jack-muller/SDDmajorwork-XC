@@ -6,6 +6,8 @@ from flask import jsonify
 #from app.forms import LoginForm
 import bcrypt
 
+global rne
+rne = ""
 # def load_users():
 #     users = []
 #     with open("app/users.txt", "r") as file:
@@ -273,7 +275,6 @@ def increment():
 
 def read_number():
     with open("app/season.txt", "r") as f:
-        print(f'{f}')
         season_no = int(f.readline().strip())
     return season_no
 
@@ -284,10 +285,12 @@ def write_number(new_number):
 
 @app.route('/newrace', methods=['POST', 'GET'])
 def newrace():
+    global rne
     print(f'{request.method}')
     if (request.method == "POST"):
-        print(f'{request.method} I am in')
+        print(f'{request.method} I am in this')
         racenameentered = request.form['nameofraceinput'] 
+        rne = racenameentered
         agegroupentered = request.form['agegroupinput']
         coordnameentered = request.form['coordinatorinput']
         coursenameentered = request.form['coursenameinput']
@@ -302,14 +305,106 @@ def newrace():
             with open(race_file_path, 'w') as f:
                 f.write(f"{racenameentered}|{agegroupentered}|{coordnameentered}|{coursenameentered}")
 
-        return render_template('beginscanning.html', title='Begin Scanning')
+        
+        return redirect(url_for('beginscanning'))
 
     else:
         return render_template('newrace.html', title='New Race')
     
 def read_number():
-    f = open("app/season.txt", "r")
-    print(f'{f}')
-    season_no = int(f.readline().strip())
-    f.close()
+    with open("app/season.txt", "r") as f:
+        season_no = int(f.readline().strip())
     return season_no
+
+@app.route('/beginscanning', methods=['GET', 'POST'])
+def beginscanning():
+    print(f'{request.method} HIHIHIHI')
+    if (request.method == "POST"):
+        athleteCode = request.form['athlete_code']
+        racenameentered = rne
+
+        currentseason = read_number()
+        season_dir = os.path.join('app', 'races', f'season{currentseason}')
+
+        os.makedirs(season_dir, exist_ok=True)
+        race_file_path = os.path.join(season_dir, f'{racenameentered}.txt')
+        
+        athInFile = False
+        if check_athlete_code(athleteCode):
+            with open(race_file_path, 'r') as f:
+                linesOfFile = f.readlines()
+                for i in linesOfFile:
+                    if ":" in i:
+                        d = i.split(":")
+                        print(d[1])
+                        if d[1].strip() == athleteCode:
+                            athInFile = True
+                if athInFile == False:
+                    with open(race_file_path, 'a') as f:
+                        f.write(f"\n{get_next_place(race_file_path)}:{athleteCode}")
+                noAthlete = False
+        else:
+            noAthlete = True
+        
+        with open(race_file_path, 'r') as f:
+            lines = f.readlines()
+            athletes = []
+            for i in lines:
+                if ":" in i:
+                    d = i.split(":")
+                    print(d[1])
+                    d.append(get_athlete_name(d[1].strip()))
+                    print(d[2])
+                    athletes.append(d)
+
+
+        return render_template('beginscanning.html', title='Scanning', athInFile=athInFile, noAthlete=noAthlete, ath = athletes)
+
+
+    else:
+        # return render_template('beginscanning.html')
+        return render_template('beginscanning.html', title='Scanning')
+
+def check_athlete_code(athlete_code):
+    with open("app/athletes.txt", "r") as f:
+        listofathletes = f.readlines()
+        for i in listofathletes:
+            i = i.split("|")
+            if i[2] == athlete_code:
+                return True
+        return False
+
+def get_athlete_name(athlete_code):
+    with open("app/athletes.txt", "r") as f:
+        listofathletes = f.readlines()
+        for i in listofathletes:
+            i = i.split("|")
+            if i[2] == athlete_code:
+                name = i[0] + i[1]
+                return name
+
+@app.route('/confirm_athlete', methods=['POST'])
+def confirm_athlete():
+    data = request.json
+    racename = data['racename']
+    athlete_code = data['athlete_code']
+    
+    # Add athlete to race file
+    race_file_path = f"app/races/season{get_current_season()}/{racename}.txt"
+    with open(race_file_path, 'a') as f:
+        place = get_next_place(race_file_path)  # Implement this function
+        f.write(f"{place} {athlete_code}\n")
+    
+    return jsonify({'success': True, 'place': place})
+
+def get_current_season():
+    with open("app/season.txt", "r") as f:
+        season_no = int(f.readline().strip())
+    return season_no
+
+def get_next_place(path):
+    with open(path, 'r') as f:
+        Lines = f.readlines()
+        return len(Lines)
+    
+

@@ -2,7 +2,36 @@
 
 {% block content %}
 
-<h1>Begin Scanning</h1>
+{% if noAthlete == True %}
+    <!-- <p>Athlete Code invalid</p> -->
+    <script>
+        window.onload = function() {
+            alert("Athlete Code Invalid")
+        }
+    </script>
+{% endif %}
 
+{% if athInFile == True %}
+    <!-- <p>Athlete Code invalid</p> -->
+    <script>
+        window.onload = function() {
+            alert("Athlete Already Scanned")
+        }
+    </script>
+{% endif %}
+
+<h1>Begin Scanning for {{ race_name }}</h1>
+
+<form id="scanForm" method="POST" action="">
+    <input type="text" id="athleteCode" name="athlete_code" required>
+    <button type="submit">Scan</button>
+</form>
+
+
+<h2>Finished Runners</h2>
+{% for i in ath %}
+    <p> {{ i[0] }}: {{ i[2] }} ({{ i[1] }})</p>
+    
+{% endfor %}
 
 {% endblock %}
