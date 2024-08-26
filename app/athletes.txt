@@ -1,3 +1,8 @@
 running|man|100000|Junior
 Horatio|Poltergeist|100004|Senior
 Jack|Muller|100001|Intermediate
+Kalani|Costello|100002|Intermediate
+Alex|Tumsov|100003|Senior
+Runner|Dude|100005|Junior
+speed|mcqueen|100006|Junior
+rat|man|100007|Senior

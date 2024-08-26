@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Previous Results</h1>
+
+<ul>
+    {% for season_dir,files in seasondict.items() %}
+    <li>
+        <b>{{ season_dir.split('/')[-1] }}:</b>
+        {% if files %}
+            <ul>
+                {% for file in files %}
+                    <li>{{ file }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <ul>
+                <span>No races recorded</span>
+            </ul>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

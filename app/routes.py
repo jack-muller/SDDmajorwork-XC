@@ -257,7 +257,17 @@ def athletemaker():
 
 @app.route('/previous_results', methods=['POST', 'GET'])
 def previousresults():
-    return render_template('previous_results.html', title='Previous_results')   
+    if (request.method == "GET"):
+        seasondict = {}
+        currentseason = read_number()
+        for i in range(1, currentseason + 1):
+            season_dir = os.path.join('app', 'races', f'season{i}')
+            all_entries = os.listdir(season_dir)
+            seasondict[season_dir] = all_entries
+        print(seasondict)
+        return render_template('previous_results.html', title='Previous Results', seasondict=seasondict)   
+    else:
+        return render_template('previous_results.html', title='Previous Results')
 
 @app.route('/scorer', methods=['POST', 'GET'])
 def scorer():
@@ -383,24 +393,24 @@ def get_athlete_name(athlete_code):
                 name = i[0] + i[1]
                 return name
 
-@app.route('/confirm_athlete', methods=['POST'])
-def confirm_athlete():
-    data = request.json
-    racename = data['racename']
-    athlete_code = data['athlete_code']
+# @app.route('/confirm_athlete', methods=['POST'])
+# def confirm_athlete():
+#     data = request.json
+#     racename = data['racename']
+#     athlete_code = data['athlete_code']
     
-    # Add athlete to race file
-    race_file_path = f"app/races/season{get_current_season()}/{racename}.txt"
-    with open(race_file_path, 'a') as f:
-        place = get_next_place(race_file_path)  # Implement this function
-        f.write(f"{place} {athlete_code}\n")
+#     # Add athlete to race file
+#     race_file_path = f"app/races/season{get_current_season()}/{racename}.txt"
+#     with open(race_file_path, 'a') as f:
+#         place = get_next_place(race_file_path)  # Implement this function
+#         f.write(f"{place} {athlete_code}\n")
     
-    return jsonify({'success': True, 'place': place})
+#     return jsonify({'success': True, 'place': place})
 
-def get_current_season():
-    with open("app/season.txt", "r") as f:
-        season_no = int(f.readline().strip())
-    return season_no
+# def get_current_season():
+#     with open("app/season.txt", "r") as f:
+#         season_no = int(f.readline().strip())
+#     return season_no
 
 def get_next_place(path):
     with open(path, 'r') as f:
@@ -408,3 +418,14 @@ def get_next_place(path):
         return len(Lines)
     
 
+@app.route('/removerunner', methods=['POST'])
+def removerunner():
+    #needs to find the runner that its associated with
+    racenameentered = rne
+
+    currentseason = read_number()
+    season_dir = os.path.join('app', 'races', f'season{currentseason}')
+
+    os.makedirs(season_dir, exist_ok=True)
+    race_file_path = os.path.join(season_dir, f'{racenameentered}.txt')
+    pass

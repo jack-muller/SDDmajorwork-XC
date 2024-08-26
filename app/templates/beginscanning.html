@@ -24,14 +24,20 @@
 
 <form id="scanForm" method="POST" action="">
     <input type="text" id="athleteCode" name="athlete_code" required>
-    <button type="submit">Scan</button>
+    <button type="submit" class="btn widebutton">Scan</button>
 </form>
 
-
 <h2>Finished Runners</h2>
-{% for i in ath %}
-    <p> {{ i[0] }}: {{ i[2] }} ({{ i[1] }})</p>
-    
-{% endfor %}
+    {% for i in ath %}
+        <p> {{ i[0] }}: {{ i[2] }} ({{ i[1] }})</p>
+        <form action="{{ url_for('removerunner') }}" method="POST">
+            <button type="submit" class="btn thinbutton">remove runner</button>
+        </form>    
+    {% endfor %}
+
+<form action="{{ url_for('previousresults') }}" method="POST">
+    <button type="submit" class="btn widebottombutton">Continue</button>
+</form>
+
 
 {% endblock %}

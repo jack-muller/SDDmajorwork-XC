@@ -63,3 +63,15 @@
 button:hover {
     background-color: #285bb5;
 }
+
+li {
+  margin-left: 50px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+span {
+  margin-left: 50px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}

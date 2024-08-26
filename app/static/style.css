@@ -38,9 +38,8 @@ input[type="password"] {
     border-radius: 4px;
 }
 
-button {
+.btn {
     display: block;
-    width: 100%;
     padding: 10px;
     background-color: #4CAF50;
     color: white;
@@ -51,4 +50,26 @@ button {
 
 button:hover {
     background-color: #45a049;
+}
+
+.widebutton {
+    width: 100%;
+}
+
+.thinbutton {
+    width: 100px;
+}
+
+.widebottombutton {
+    position: fixed; /* Fix the button at the bottom of the viewport */
+    bottom: 0; /* Align the button to the bottom */
+    left: 0; /* Start the button from the left edge */
+    width: 100%; /* Make the button as wide as the viewport */
+    padding: 15px 0; /* Add some padding for a larger button */
+    background-color: #0db95b; /* Example background color */
+    color: white; /* Text color */
+    border: none; /* Remove default borders */
+    text-align: center; /* Center the text inside the button */
+    font-size: 18px; /* Increase font size */
+    cursor: pointer; /* Change cursor to pointer */
 }
