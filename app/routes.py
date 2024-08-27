@@ -535,15 +535,35 @@ def statspage():
         for athlete_id, score in indivscoredict.items():
             p.write(f'{athlete_id}:{score}\n')
 
-    # for season_dir,files in seasondict.items():
-    #     x = season_dir.split('/')[-1]
-    #     listofdirroutes = []
-    #     if files:
-    #         for file in files:
-    #             listofdirroutes.append(f'{season_dir}/{file}')
-    #     else:
-    #         pass
+    scores = []
 
+    with open(f'app/individualscores/indivboardseason{currentseason}.txt', 'r') as f:
+        for line in f:
+            athlete_id, score = line.strip().split(':')
+            scores.append((athlete_id, int(score)))
+
+    def bubble_sort(arr):
+        n = len(arr)
+        swapped = True
+        pass_num = 0
+        while swapped:
+            swapped = False
+            comparison = 0
+            while comparison < n - 1 - pass_num:
+                if arr[comparison][1] > arr[comparison + 1][1]:
+                    # Swap the elements
+                    arr[comparison], arr[comparison + 1] = arr[comparison + 1], arr[comparison]
+                    swapped = True
+                comparison += 1
+            pass_num += 1
+        return arr
+
+    bubble_sort(scores)
+
+    with open(indiv_board_path, 'w') as f:
+        for athlete_id, score in scores:
+            f.write(f'{athlete_id}:{score}\n')
+    
     #school standing for the season:
 
     #previous Individual winners
@@ -556,3 +576,12 @@ def read_number():
     with open("app/season.txt", "r") as f:
         season_no = int(f.readline().strip())
     return season_no
+
+def get_athlete_name(athlete_code):
+    with open("app/athletes.txt", "r") as f:
+        listofathletes = f.readlines()
+        for i in listofathletes:
+            i = i.split("|")
+            if i[2] == athlete_code:
+                name = i[0] + ' ' + i[1]
+                return name
