@@ -1,9 +1,0 @@
-Grorge Verco 100008:3
-running man 100000:4
-speed mcqueen 100006:4
-rat man 100007:5
-Jack Muller 100001:7
-Runner Dude 100005:8
-Alex Tumsov 100003:11
-Horatio Poltergeist 100004:11
-Kalani Costello 100002:13

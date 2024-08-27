@@ -1,5 +1,0 @@
-asdh|Junior|AlfredPennyworth|Kings
-1:100001
-2:100004
-3:100002
-4:100003

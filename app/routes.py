@@ -496,8 +496,6 @@ def statspage():
         all_races = os.listdir(season_dir)
         seasondict[season_dir] = all_races
     
-    print(seasondict)
-
     indiv_board_path = f'app/individualscores/indivboardseason{currentseason}.txt'
 
     # step 1: Read and reset scores
@@ -566,6 +564,11 @@ def statspage():
     
     #school standing for the season:
 
+    
+    school_board_path = f'app/schoolscores/schoolboardseason{currentseason}.txt'
+    athletes_path = "app/athletes.txt"
+    update_school_scores(currentseason, indiv_board_path, school_board_path, athletes_path)
+
     #previous Individual winners
 
     #previous school winners
@@ -585,3 +588,35 @@ def get_athlete_name(athlete_code):
             if i[2] == athlete_code:
                 name = i[0] + ' ' + i[1]
                 return name
+            
+from collections import defaultdict
+
+def update_school_scores(currentseason, indiv_board_path, school_board_path, athletes_path):
+    # Step 1: Read all athlete data once
+    athlete_schools = {}
+    with open(athletes_path, 'r') as f:
+        for line in f:
+            data = line.strip().split("|")
+            athlete_schools[data[2]] = data[4]
+
+    # Step 2: Read individual scores and group by school
+    school_scores = defaultdict(list)
+    with open(indiv_board_path, 'r') as f:
+        for line in f:
+            athlete_id, score = line.strip().split(':')
+            school = athlete_schools.get(athlete_id)
+            if school:
+                school_scores[school].append(int(score))
+                print(school_scores)
+
+    # Step 3: Calculate the top 4 scores for each school
+    final_school_scores = {}
+    for school, scores in school_scores.items():
+        top_scores = sorted(scores)[:4] #learnt a cool new way to sort stuff
+        print(top_scores) #checking to make sure my changes were doing what I wanted them to do.
+        final_school_scores[school] = sum(top_scores)
+
+    # Step 4: Update the school scores file
+    with open(school_board_path, 'w') as f:
+        for school, total_score in final_school_scores.items():
+            f.write(f'{school}: {total_score}\n')

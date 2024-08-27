@@ -1,3 +1,0 @@
-thisRace|Junior|jesus|Upjohn
-1:100000
-2:100004
