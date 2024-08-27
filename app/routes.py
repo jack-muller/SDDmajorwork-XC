@@ -462,3 +462,48 @@ def get_athlete_name(athlete_code):
             if i[2] == athlete_code:
                 name = i[0] + i[1]
                 return name
+            
+# @app.route('/statspage', methods=['GET', 'POST'])
+# def statspage():
+#     #individual standing for the season:
+#     seasonleaderboard = {} #need to initialise this every new season with all athlete codes and points = 0
+
+#     seasondict = {}
+#     currentseason = read_number()
+#     for i in range(1, currentseason + 1):
+#         season_dir = os.path.join('app', 'races', f'season{i}')
+#         all_entries = os.listdir(season_dir)
+#         seasondict[season_dir] = all_entries
+
+#     athletedict = {}
+#     x = seasondict[os.path.join('app', 'races', f'season{currentseason}')]
+#     for i in range(0, len(all_entries)):
+#         file_path = f'{x}/{all_entries[i]}'
+#         with open(file_path, 'r') as f:
+#             next(f)
+
+
+
+
+    # for season_dir,files in seasondict.items():
+    #     x = season_dir.split('/')[-1]
+    #     listofdirroutes = []
+    #     if files:
+    #         for file in files:
+    #             listofdirroutes.append(f'{season_dir}/{file}')
+    #     else:
+    #         pass
+
+
+    #school standing for the season:
+
+    #previous Individual winners
+
+    #previous school winners
+
+    return render_template('statspage.html', title="Statistics Page")
+
+def read_number():
+    with open("app/season.txt", "r") as f:
+        season_no = int(f.readline().strip())
+    return season_no
