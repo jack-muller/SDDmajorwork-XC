@@ -109,7 +109,7 @@ def register():
 
             if validadmintag == True:
                 print("checking if admin is a number")
-                if newadmintag.isnumeric() == True:
+                if newadmintag in ['0', '1']:
                     print("yup")
                 else:
                     validadmintag = False
@@ -150,7 +150,7 @@ def register():
             if newfirstnameCheck == True:
                 print("Come over here I'm feeling alphanumerical")
                 if newfirstname.isalpha() == False:
-                    newfirstnameCheck == False
+                    newfirstnameCheck = False
                     print("your name ain't alphanumerical")
                 else:
                     print("your first name is alpha")
@@ -159,7 +159,7 @@ def register():
             if newlastnameCheck == True:
                     print("lemme check if your last name is alpha")
                     if newlastname.isalpha() == False:
-                        newlastnameCheck == False
+                        newlastnameCheck = False
                         print("non alpha last name")
                     else:
                         print("alpha last name")
@@ -183,7 +183,7 @@ def register():
                 return redirect(url_for('login'))
             else:
                 print("the checks failed - the new account details are funky")
-                error_message = "Registration failed. Username might be same as someone else's, or other details may be incorrect."
+                error_message = "Registration failed. Username might be same as someone elses, or other details may be incorrect."
                 return render_template('register.html', title='Register', error_message=error_message)
     else:
         # return redirect(url_for('login'))

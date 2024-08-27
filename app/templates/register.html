@@ -12,24 +12,40 @@
     </script>
 {% endif %}
 
-<div class="login-container">
-    <form method="POST" action="">
-        <label for="username">Username</label>
-        <input type="text" id="username" name="rusername" placeholder="Username" required>
-        
-        <label for="password">Password</label>
-        <input type="text" id="password" name="rpassword" placeholder="Password" required>
-        
-        <label for="fname">First Name</label>
-        <input type="text" id="fname" name="rfname" placeholder="Enter First Name" required>
+<div class="container">
+    <h1>Register</h1>
+    
+    {% if error_message %}
+        <div class="alert" id="errorMessage"></div>
+    {% endif %}
 
-        <label for="lname">Last Name</label>
-        <input type="text" id="lname" name="rlname" placeholder="Last Name" required>
+    <form class="form" method="POST" action="">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="rusername" placeholder="Choose a username" required>
+        </div>
         
-        <label for="admin">Admin identifier</label>
-        <input type="text" id="admin" name="atag" placeholder="Enter 1 or 0" required>
-        <input type="submit">
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="rpassword" placeholder="Choose a password" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="fname">First Name</label>
+            <input type="text" id="fname" name="rfname" placeholder="Enter your first name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="lname">Last Name</label>
+            <input type="text" id="lname" name="rlname" placeholder="Enter your last name" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="admin">Admin Identifier</label>
+            <input type="text" id="admin" name="atag" placeholder="Enter 1 for admin, 0 for regular user" required>
+        </div>
+
+        <button type="submit" class="btn widebutton">Register</button>
     </form>
 </div>
-
 {% endblock %}
