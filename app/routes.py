@@ -286,8 +286,31 @@ def increment():
     new_number = read_number() + 1
     write_number(new_number)
 
-    new_dir = os.path.join('app', 'races', f'season{new_number}')
-    os.makedirs(new_dir, exist_ok=True)
+    new_dir1 = os.path.join('app', 'races', f'season{new_number}')
+    os.makedirs(new_dir1, exist_ok=True)
+    
+    transferathletes = []
+    with open('app/athletes.txt', 'r') as f:
+        for line in f:
+            linelist = line.strip().split('|')
+            transferathletes.append(int(linelist[2]))
+
+    race_file_path = os.path.join('app', 'individualscores', f'indivboardseason{new_number}.txt')
+    with open(race_file_path, 'a') as f:
+        for i in transferathletes:
+            f.write(f'{i}:0\n')
+    
+    race_file_path = os.path.join('app', 'schoolscores', f'schoolboardseason{new_number}.txt')
+    with open(race_file_path, 'a') as f:
+        f.write("Scots:0\n")
+        f.write("Kings:0\n")
+        f.write("Shore:0\n")
+        f.write("Newington:0\n")
+        f.write("Grammar:0\n")
+        f.write("Riverview:0\n")
+        f.write("High:0\n")
+        f.write("Joeys:0\n")
+        
 
     return jsonify({'number': new_number})
 
