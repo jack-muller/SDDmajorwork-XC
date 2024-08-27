@@ -486,27 +486,54 @@ def get_athlete_name(athlete_code):
                 name = i[0] + i[1]
                 return name
             
-# @app.route('/statspage', methods=['GET', 'POST'])
-# def statspage():
-#     #individual standing for the season:
-#     seasonleaderboard = {} #need to initialise this every new season with all athlete codes and points = 0
+@app.route('/statspage', methods=['GET', 'POST'])
+def statspage():
+    #individual standing for the season:
+    seasondict = {}
+    currentseason = read_number()
+    for i in range(1, currentseason + 1):
+        season_dir = os.path.join('app', 'races', f'season{i}')
+        all_races = os.listdir(season_dir)
+        seasondict[season_dir] = all_races
+    
+    print(seasondict)
 
-#     seasondict = {}
-#     currentseason = read_number()
-#     for i in range(1, currentseason + 1):
-#         season_dir = os.path.join('app', 'races', f'season{i}')
-#         all_entries = os.listdir(season_dir)
-#         seasondict[season_dir] = all_entries
+    indiv_board_path = f'app/individualscores/indivboardseason{currentseason}.txt'
 
-#     athletedict = {}
-#     x = seasondict[os.path.join('app', 'races', f'season{currentseason}')]
-#     for i in range(0, len(all_entries)):
-#         file_path = f'{x}/{all_entries[i]}'
-#         with open(file_path, 'r') as f:
-#             next(f)
+    # step 1: Read and reset scores
+    reset_scores = []
 
+    with open(indiv_board_path, 'r') as f:
+        for line in f:
+            athlete_id, _ = line.strip().split(':')  # Split line into athlete ID and score
+            reset_scores.append(f'{athlete_id}:0')  # Reset score to 0
 
+# Step 2: Write the reset scores back to the file
+    with open(indiv_board_path, 'w') as f:
+        for entry in reset_scores:
+            f.write(entry + '\n')
 
+    x = os.path.join('app', 'races', f'season{currentseason}')
+    indivscoredict = {}
+    with open(f'app/individualscores/indivboardseason{currentseason}.txt', 'r') as p:
+                for line in p:
+                    athlete_id, score = line.strip().split(":")
+                    indivscoredict[athlete_id] = int(score)
+    for race in all_races:
+        file_path = f'{x}/{race}'
+        with open(file_path, 'r') as f:
+            next(f)
+            for line in f:
+                placing, athlete_id = line.strip().split(':')
+                placing = int(placing)
+                if athlete_id in indivscoredict:
+                    indivscoredict[athlete_id] += placing  # Add the placing to the current score
+                else:
+                    indivscoredict[athlete_id] = placing
+
+    with open(f'app/individualscores/indivboardseason{currentseason}.txt', 'w') as p:
+        for athlete_id, score in indivscoredict.items():
+            p.write(f'{athlete_id}:{score}\n')
 
     # for season_dir,files in seasondict.items():
     #     x = season_dir.split('/')[-1]
@@ -517,14 +544,13 @@ def get_athlete_name(athlete_code):
     #     else:
     #         pass
 
-
     #school standing for the season:
 
     #previous Individual winners
 
     #previous school winners
 
-    return render_template('statspage.html', title="Statistics Page")
+    return render_template('statspage.html', title="Statistics Page", indivscoredict=indivscoredict, currentseason=currentseason)
 
 def read_number():
     with open("app/season.txt", "r") as f:

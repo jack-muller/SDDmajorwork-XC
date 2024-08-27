@@ -2,5 +2,14 @@
 
 {% block content %}
 
+    <h1>Current standings for {{currentseason}}</h1>
+    <ul>
+        {% for athlete_id,score in indivscoredict.items() %}
+        <li>
+            <span>{{athlete_id}} : {{score}}</span>
+        </li>
+        {% endfor %}
+    </ul>
+    
 
 {% endblock %}
