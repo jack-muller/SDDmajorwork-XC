@@ -1,25 +1,11 @@
 {% extends "noheader.html" %}
 
 {% block content %}
-
-{% if noAthlete == True %}
-    <!-- <p>Athlete Code invalid</p> -->
-    <script>
-        window.onload = function() {
-            alert("Athlete Code Invalid")
-        }
-    </script>
-{% endif %}
-
-{% if athInFile == True %}
-    <!-- <p>Athlete Code invalid</p> -->
-    <script>
-        window.onload = function() {
-            alert("Athlete Already Scanned")
-        }
-    </script>
-{% endif %}
 <div class="container">
+    {% if noAthlete == True or athInFile == True %}
+        <div class="alert" id="alertMessage"></div>
+    {% endif %}
+
     <h1>Begin Scanning for {{ race_name }}</h1>
 
     <form id="scanForm" method="POST" action="">
@@ -44,6 +30,13 @@
     </form>
 </div>
 
-
+<script>
+    window.onload = function() {
+        {% if noAthlete == True %}
+            document.getElementById('alertMessage').textContent = "Athlete Code Invalid";
+        {% elif athInFile == True %}
+            document.getElementById('alertMessage').textContent = "Athlete Already Scanned";
+        {% endif %}
+    }
+</script>
 {% endblock %}
-
