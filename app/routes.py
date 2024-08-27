@@ -279,7 +279,13 @@ def previousresults():
 
 @app.route('/scorer', methods=['POST', 'GET'])
 def scorer():
-    return render_template('scorer.html', title='Scorer') 
+    current_season = read_number()
+    return render_template('scorer.html', title='Scorer', number=current_season) 
+
+def read_number():
+    with open("app/season.txt", "r") as f:
+        season_no = int(f.readline().strip())
+    return season_no
 
 @app.route('/increment', methods=['POST'])
 def increment():
