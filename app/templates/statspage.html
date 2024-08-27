@@ -1,15 +1,29 @@
 {% extends "base.html" %}
 
 {% block content %}
+<main>
+    <section>
+        <h1>Current individual standings for season {{currentseason}}</h1>
+        <ul class="standings-list">
+            {% for athlete_id, score in indivscoredict.items() %}
+            <li class="standings-item">
+                <span class="athlete">{{athlete_id}}</span>
+                <span class="score">{{score}}</span>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
 
-    <h1>Current standings for {{currentseason}}</h1>
-    <ul>
-        {% for athlete_id,score in indivscoredict.items() %}
-        <li>
-            <span>{{athlete_id}} : {{score}}</span>
-        </li>
-        {% endfor %}
-    </ul>
-    
-
+    <section>
+        <h1>Current school standings for season {{currentseason}}</h1>
+        <ul class="standings-list">
+            {% for school, score in fss.items() %}
+            <li class="standings-item">
+                <span class="school">{{school}}</span>
+                <span class="score">{{score}}</span>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+</main>
 {% endblock %}

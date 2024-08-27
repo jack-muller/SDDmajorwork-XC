@@ -567,13 +567,10 @@ def statspage():
     
     school_board_path = f'app/schoolscores/schoolboardseason{currentseason}.txt'
     athletes_path = "app/athletes.txt"
-    update_school_scores(currentseason, indiv_board_path, school_board_path, athletes_path)
+    fss = update_school_scores(currentseason, indiv_board_path, school_board_path, athletes_path)
+    print(fss) 
 
-    #previous Individual winners
-
-    #previous school winners
-
-    return render_template('statspage.html', title="Statistics Page", indivscoredict=indivscoredict, currentseason=currentseason)
+    return render_template('statspage.html', title="Statistics Page", indivscoredict=indivscoredict, currentseason=currentseason, fss=fss)
 
 def read_number():
     with open("app/season.txt", "r") as f:
@@ -620,3 +617,5 @@ def update_school_scores(currentseason, indiv_board_path, school_board_path, ath
     with open(school_board_path, 'w') as f:
         for school, total_score in final_school_scores.items():
             f.write(f'{school}: {total_score}\n')
+    
+    return final_school_scores
