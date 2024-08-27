@@ -11,7 +11,13 @@
         {% if files %}
             <ul>
                 {% for file in files %}
-                    <li>{{ file }}</li>
+                    <li>
+                        {{ file }}
+                        <form action="{{ url_for('view_race_results') }}" method="POST" style="display:inline;">
+                            <input type="hidden" name="file_path" value="{{ season_dir }}/{{ file }}">
+                            <button type="submit">View Results</button>
+                        </form>
+                    </li>
                 {% endfor %}
             </ul>
         {% else %}

@@ -13,23 +13,42 @@
     {% endif %}
     <form method="POST" action="">
         <h2>Create an athlete</h2>
-        
-        <label for="firstname">First Name</label>
-        <input type="text" id="firstname" name="fname" placeholder="First name" required>
-        
-        <label for="lastname">Last Name</label>
-        <input type="text" id="lastname" name="lname" placeholder="Last name" required>
-        
-        <label for="athnum">Set a 6 digit athlete number:</label>
-        <input type="text" id="athnum" name="acode" placeholder="Athlete Number" required>
-        
-        <label for="agegroup">Choose an agegroup:</label>
-        <select id="agegroup" name="agegroup">
-            <option value="Junior">Junior</option>
-            <option value="Intermediate">Intermediate</option>
-            <option value="Senior">Senior</option>
-        </select>
+        <ul>
+            <li>
+                <label for="firstname">First Name</label>
+                <input type="text" id="firstname" name="fname" placeholder="First name" required>
+            </li>
+            <li>
+                <label for="lastname">Last Name</label>
+                <input type="text" id="lastname" name="lname" placeholder="Last name" required>
+            </li>
+            <li>
+                <label for="athnum">Set a 6 digit athlete number:</label>
+                <input type="text" id="athnum" name="acode" placeholder="Athlete Number" required>
+            </li>
+            <li>
+                <label for="school">School</label>
+                <select id="school" name="school">
+                    <option value="Scots">The Scots College</option>
+                    <option value="Kings">The Kings School</option>
+                    <option value="Shore">Shore School</option>
+                    <option value="Newington">Newington School</option>
+                    <option value="Grammar">Sydney Grammar School</option>
+                    <option value="Riverview">St Ignatius' College Riverview</option>
+                    <option value="High">Sydney Boys High School</option>
+                    <option value="Joeys">St Joseph's College</option>
+                </select>
+            </li>
+            <li>
+                <label for="agegroup">Choose an agegroup:</label>
+                <select id="agegroup" name="agegroup">
+                    <option value="Junior">Junior</option>
+                    <option value="Intermediate">Intermediate</option>
+                    <option value="Senior">Senior</option>
+                </select>
+            </li>
         <input type="submit">
+    </ul>
     </form>
 </div>
 

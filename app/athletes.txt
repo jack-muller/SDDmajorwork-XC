@@ -1,8 +1,9 @@
-running|man|100000|Junior
-Horatio|Poltergeist|100004|Senior
-Jack|Muller|100001|Intermediate
-Kalani|Costello|100002|Intermediate
-Alex|Tumsov|100003|Senior
-Runner|Dude|100005|Junior
-speed|mcqueen|100006|Junior
-rat|man|100007|Senior
+running|man|100000|Junior|Kings
+Horatio|Poltergeist|100004|Senior|Scots
+Jack|Muller|100001|Intermediate|Scots
+Kalani|Costello|100002|Intermediate|Kings
+Alex|Tumsov|100003|Senior|Scots
+Runner|Dude|100005|Junior|Kings
+speed|mcqueen|100006|Junior|Kings
+rat|man|100007|Senior|Scots
+Grorge|Verco|100008|Senior|Scots

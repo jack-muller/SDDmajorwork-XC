@@ -1,0 +1,19 @@
+{% extends "noheader.html" %}
+
+{% block content %}
+
+<h1>{{ race }}</h1>
+
+<ul>
+    {% for place,value in race_dict.items() %}
+    <li>
+        <span>{{place}} : {{value}}</span>
+    </li>
+    {% endfor %}
+</ul>
+
+<form action="{{ url_for('previousresults') }}" method="GET" style="display:inline;">
+    <button type="submit">back</button>
+</form>
+
+{% endblock %}

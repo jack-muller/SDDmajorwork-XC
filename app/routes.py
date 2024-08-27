@@ -200,6 +200,7 @@ def athletemaker():
             lastname = request.form['lname']
             athletenumber = request.form['acode']
             agegroup = request.form['agegroup']
+            school = request.form['school']
             athletenumbervalid = True
             firstnamevalid = True
             lastnamevalid = True
@@ -241,7 +242,7 @@ def athletemaker():
                     print("time to write to the file")
                     # write all of the things into a file:
                     
-                    f.write(f'\n{firstname}|{lastname}|{athletenumber}|{agegroup}')
+                    f.write(f'\n{firstname}|{lastname}|{athletenumber}|{agegroup}|{school}')
                     #flash('Registration successful! Now you can log in!', 'success')
                     return render_template('athletemaker.html', title='Athlete Maker')
             else: 
@@ -267,7 +268,14 @@ def previousresults():
         print(seasondict)
         return render_template('previous_results.html', title='Previous Results', seasondict=seasondict)   
     else:
-        return render_template('previous_results.html', title='Previous Results')
+        seasondict = {}
+        currentseason = read_number()
+        for i in range(1, currentseason + 1):
+            season_dir = os.path.join('app', 'races', f'season{i}')
+            all_entries = os.listdir(season_dir)
+            seasondict[season_dir] = all_entries
+        print(seasondict)
+        return render_template('previous_results.html', title='Previous Results', seasondict=seasondict)
 
 @app.route('/scorer', methods=['POST', 'GET'])
 def scorer():
@@ -429,3 +437,28 @@ def removerunner():
     os.makedirs(season_dir, exist_ok=True)
     race_file_path = os.path.join(season_dir, f'{racenameentered}.txt')
     pass
+
+@app.route('/view_race_results', methods=['POST'])
+def view_race_results():
+    file_path = request.form.get('file_path')
+    # Logic to read the file and display its contents
+    race = file_path.split('/')[-1]
+    with open(file_path, 'r') as f:
+        next(f)
+        race_dict = {}
+        for line in f:
+            a = line.strip().split(':')
+            name = get_athlete_name(a[1])
+            race_dict[a[0]] = f'{a[1]} ({name})'
+            
+    
+    return render_template('viewresults.html', race_dict=race_dict, title="View Race Results", race=race)
+
+def get_athlete_name(athlete_code):
+    with open("app/athletes.txt", "r") as f:
+        listofathletes = f.readlines()
+        for i in listofathletes:
+            i = i.split("|")
+            if i[2] == athlete_code:
+                name = i[0] + i[1]
+                return name
