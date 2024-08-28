@@ -4,7 +4,7 @@
 
 <h1>Register</h1>
 
-{% if error_message %}
+{% if error_message %} <!--bit of a cheeky error message that flashes if you go wrong-->
     <script>
         window.onload = function() {
             alert(`{{ error_message }}`)
@@ -13,7 +13,7 @@
 {% endif %}
 
 <div class="container">
-    <h1>Register</h1>
+    <h1>Register</h1> <!--this is just a big ass form that provides somewhere for the user to offload their data-->
     
     {% if error_message %}
         <div class="alert" id="errorMessage"></div>
@@ -47,7 +47,7 @@
 
         <button type="submit" class="btn widebutton">Register</button>
     </form>
-    <a href="{{ url_for('landingpage') }}">
+    <a href="{{ url_for('landingpage') }}"> <!--the submit button sends you to the landing page route, and you end up at the login page-->
         <button>back</button>
     </a>
 </div>

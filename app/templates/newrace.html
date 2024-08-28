@@ -1,17 +1,19 @@
 {% extends "noheader.html" %}
 
+<!--this is an absolutely massive headache of html stuff-->
+
 {% block content %}
-<div class="container">
+<div class="container"> <!--class in html, used for css stuff-->
     <h1>Create New Race</h1>
-    <form class="form" method="POST" action="">
+    <form class="form" method="POST" action=""> <!--the origin of post requests itself-->
         <div class="form-group">
-            <label for="racename">Name of Race</label>
-            <input type="text" id="racename" name="nameofraceinput" placeholder="Enter race name" required>
+            <label for="racename">Name of Race</label> <!--form label so you know what date to fill out-->
+            <input type="text" id="racename" name="nameofraceinput" placeholder="Enter race name" required> <!--text input-->
         </div>
 
         <div class="form-group">
-            <label for="agegroup">Age Group</label>
-            <select id="agegroup" name="agegroupinput">
+            <label for="agegroup">Age Group</label><!--form label so you know what date to fill out-->
+            <select id="agegroup" name="agegroupinput"> <!--dropdown menu-->
                 <option value="Junior">Junior</option>
                 <option value="Intermediate">Intermediate</option>
                 <option value="Senior">Senior</option>
@@ -19,12 +21,14 @@
         </div>
 
         <div class="form-group">
-            <label for="coordname">Coordinator Name</label> 
+            <label for="coordname">Coordinator Name</label> <!--form label so you know what date to fill out-->
+            <!--text input-->
             <input type="text" id="coordname" name="coordinatorinput" placeholder="Enter first and last name" required>
         </div>
 
         <div class="form-group">
-            <label for="course">Course Name</label> 
+            <label for="course">Course Name</label> <!--form label so you know what date to fill out-->
+            <!--Dropdown menu-->
             <select id="course" name="coursenameinput">
                 <option value="Kings">Kings School Grounds</option>
                 <option value="Riverview">Riverview School Grounds</option>

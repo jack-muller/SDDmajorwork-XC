@@ -14,15 +14,17 @@
 <p>Current Season: <span id="number">{{ number }}</span></p>
 
 <script>
+    // this creates an eventlistener, so that when the button is clicked, it creates a function that
+    // fetches the /increment route with the POST method
     document.getElementById('incrementbutton').addEventListener('click', function() {
             fetch('/increment', {
                 method: 'POST'
             })
-            .then(response => response.json())
+            .then(response => response.json()) //handles server response and makes it JSON
             .then(data => {
-                document.getElementById('number').textContent = data.number;
+                document.getElementById('number').textContent = data.number; //updates the number
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => console.error('Error:', error)); //error handling logged to the console as an error
         });
 </script>
 

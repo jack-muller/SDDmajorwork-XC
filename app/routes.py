@@ -337,35 +337,40 @@ def write_number(new_number): # this function writes the new season number to th
     f.write(f'{new_number}')
     pass
 
+import re
 @app.route('/newrace', methods=['POST', 'GET'])
 def newrace():
-    global rne
+    racename_pattern = r'^[a-zA-Z0-9 ]+$'  # Allows letters, numbers, and spaces
+    coordname_pattern = r'^[a-zA-Z ]+$' # Allows letters and spaces
+    global rne #global racenameentered variable. 
     print(f'{request.method}')
     if (request.method == "POST"):
         print(f'{request.method} I am in this')
         racenameentered = request.form['nameofraceinput'] 
-        rne = racenameentered
-        agegroupentered = request.form['agegroupinput']
-        coordnameentered = request.form['coordinatorinput']
-        coursenameentered = request.form['coursenameinput']
+        rne = racenameentered #this gets used later as well for some calculations and such
+        agegroupentered = request.form['agegroupinput'] #age group
+        coordnameentered = request.form['coordinatorinput'] #name of coordinator
+        coursenameentered = request.form['coursenameinput'] #name of course, this is a drop down
 
-        if racenameentered.isalpha() and coordnameentered.isalpha():
-            currentseason = read_number()
-            season_dir = os.path.join('app', 'races', f'season{currentseason}')
+        if re.fullmatch(racename_pattern, racenameentered) and re.fullmatch(coordname_pattern, coordnameentered): #make sure there aren't rogue characters
+            currentseason = read_number() #get current season again
+            season_dir = os.path.join('app', 'races', f'season{currentseason}') #get the directory to the current season folder
 
-            os.makedirs(season_dir, exist_ok=True)
-            race_file_path = os.path.join(season_dir, f'{racenameentered}.txt')
+            os.makedirs(season_dir, exist_ok=True) #make sure the directory exists and if not create it
+            race_file_path = os.path.join(season_dir, f'{racenameentered}.txt') #make a new file with racenameentered
             
-            with open(race_file_path, 'w') as f:
-                f.write(f"{racenameentered}|{agegroupentered}|{coordnameentered}|{coursenameentered}")
+            with open(race_file_path, 'w') as f: #write to the fie the identifying header
+                f.write(f"{racenameentered}|{agegroupentered}|{coordnameentered}|{coursenameentered}") # this is the identifying header
+        else:
+            return redirect(url_for('newrace')) #reject if it doesn't work
 
         
         return redirect(url_for('beginscanning'))
 
     else:
-        return render_template('newrace.html', title='New Race')
+        return render_template('newrace.html', title='New Race') # for the GET times
     
-def read_number():
+def read_number(): #wow never seen this before
     with open("app/season.txt", "r") as f:
         season_no = int(f.readline().strip())
     return season_no
@@ -374,61 +379,68 @@ def read_number():
 def beginscanning():
     print(f'{request.method} HIHIHIHI')
     if (request.method == "POST"):
-        athleteCode = request.form['athlete_code']
-        racenameentered = rne
+        athleteCode = request.form['athlete_code'] #get entered athlete code upon post
+        racenameentered = rne #global variable clutch
 
-        currentseason = read_number()
-        season_dir = os.path.join('app', 'races', f'season{currentseason}')
+        currentseason = read_number() # wow thats new (not)
+        season_dir = os.path.join('app', 'races', f'season{currentseason}') #this is the current season file
 
         os.makedirs(season_dir, exist_ok=True)
-        race_file_path = os.path.join(season_dir, f'{racenameentered}.txt')
+        race_file_path = os.path.join(season_dir, f'{racenameentered}.txt') #seen this before -_-
         
+        # Initialize a flag to check if the athlete code is found in the file
         athInFile = False
-        if check_athlete_code(athleteCode):
-            with open(race_file_path, 'r') as f:
-                linesOfFile = f.readlines()
-                for i in linesOfFile:
-                    if ":" in i:
-                        d = i.split(":")
-                        print(d[1])
-                        if d[1].strip() == athleteCode:
+        if check_athlete_code(athleteCode): # Check if the athlete code is valid using the check_athlete_code function
+            with open(race_file_path, 'r') as f:# Open the race file for reading
+                linesOfFile = f.readlines() # Read all lines from the file  
+                for i in linesOfFile: # Iterate through each line in the file
+                    if ":" in i:# Check if the line contains a colon (which indicates a score entry)
+                        d = i.split(":")# Split the line by the colon to separate the score and athlete code
+                        print(d[1])# Print the athlete code (for debugging purposes)
+                        if d[1].strip() == athleteCode:# Check if the athlete code in the file matches the given athlete code
+                            # Set the flag to True if the athlete code is found
                             athInFile = True
-                if athInFile == False:
-                    with open(race_file_path, 'a') as f:
-                        f.write(f"\n{get_next_place(race_file_path)}:{athleteCode}")
+                 
+                if athInFile == False: # If the athlete code was not found in the file
+                    with open(race_file_path, 'a') as f: # Open the file for appending
+                        f.write(f"\n{get_next_place(race_file_path)}:{athleteCode}")# Write a new entry for the athlete at the next available place, assigning a score to them
+            
+                # Set the flag to indicate that the athlete was found
                 noAthlete = False
         else:
+            # Set the flag to indicate that the athlete code is not valid
             noAthlete = True
         
-        with open(race_file_path, 'r') as f:
-            lines = f.readlines()
-            athletes = []
+        with open(race_file_path, 'r') as f: #open the race file again
+            lines = f.readlines() #lines is a list
+            athletes = [] # athletes is a list now too
             for i in lines:
                 if ":" in i:
-                    d = i.split(":")
-                    print(d[1])
-                    d.append(get_athlete_name(d[1].strip()))
-                    print(d[2])
-                    athletes.append(d)
+                    d = i.split(":") #list of placing and athlete code
+                    print(d[1]) # get the athlete code
+                    d.append(get_athlete_name(d[1].strip())) #appends the athlete's name
+                    print(d[2]) #this their name
+                    athletes.append(d) #list of names
 
 
-        return render_template('beginscanning.html', title='Scanning', athInFile=athInFile, noAthlete=noAthlete, ath = athletes)
+        return render_template('beginscanning.html', title='Scanning', athInFile=athInFile, noAthlete=noAthlete, ath = athletes) #this stuff gets looped through in html file to constantly update the page
 
 
     else:
         # return render_template('beginscanning.html')
         return render_template('beginscanning.html', title='Scanning')
 
-def check_athlete_code(athlete_code):
+def check_athlete_code(athlete_code): # the logic for the function explained above
     with open("app/athletes.txt", "r") as f:
         listofathletes = f.readlines()
         for i in listofathletes:
             i = i.split("|")
             if i[2] == athlete_code:
                 return True
-        return False
+            else:
+                return False
 
-def get_athlete_name(athlete_code):
+def get_athlete_name(athlete_code): #this returns the name of the athlete based on the athlete code that is passed in
     with open("app/athletes.txt", "r") as f:
         listofathletes = f.readlines()
         for i in listofathletes:
@@ -456,27 +468,28 @@ def get_athlete_name(athlete_code):
 #         season_no = int(f.readline().strip())
 #     return season_no
 
-def get_next_place(path):
+def get_next_place(path): # :)
     with open(path, 'r') as f:
         Lines = f.readlines()
         return len(Lines)
     
+#this doesn't have any functionality, so I made it pass the entire thing
 
-@app.route('/removerunner', methods=['POST'])
-def removerunner():
-    #needs to find the runner that its associated with
-    racenameentered = rne
+# @app.route('/removerunner', methods=['POST']) 
+# def removerunner():
+#     #needs to find the runner that its associated with
+#     racenameentered = rne
 
-    currentseason = read_number()
-    season_dir = os.path.join('app', 'races', f'season{currentseason}')
+#     currentseason = read_number()
+#     season_dir = os.path.join('app', 'races', f'season{currentseason}')
 
-    os.makedirs(season_dir, exist_ok=True)
-    race_file_path = os.path.join(season_dir, f'{racenameentered}.txt')
-    pass
+#     os.makedirs(season_dir, exist_ok=True)
+#     race_file_path = os.path.join(season_dir, f'{racenameentered}.txt')
+#     pass
 
-@app.route('/view_race_results', methods=['POST'])
+@app.route('/view_race_results', methods=['POST']) # a way to view previous races
 def view_race_results():
-    file_path = request.form.get('file_path')
+    file_path = request.form.get('file_path') # this gets send through
     # Logic to read the file and display its contents
     race = file_path.split('/')[-1]
     with open(file_path, 'r') as f:
@@ -484,13 +497,13 @@ def view_race_results():
         race_dict = {}
         for line in f:
             a = line.strip().split(':')
-            name = get_athlete_name(a[1])
-            race_dict[a[0]] = f'{a[1]} ({name})'
+            name = get_athlete_name(a[1]) #a[1] is the athlete's code
+            race_dict[a[0]] = f'{a[1]} ({name})' #assigning name and code to the placing
             
     
     return render_template('viewresults.html', race_dict=race_dict, title="View Race Results", race=race)
 
-def get_athlete_name(athlete_code):
+def get_athlete_name(athlete_code): #once again.
     with open("app/athletes.txt", "r") as f:
         listofathletes = f.readlines()
         for i in listofathletes:
@@ -507,53 +520,54 @@ def statspage():
     for i in range(1, currentseason + 1):
         season_dir = os.path.join('app', 'races', f'season{i}')
         all_races = os.listdir(season_dir)
-        seasondict[season_dir] = all_races
+        seasondict[season_dir] = all_races #relates the season file to the name of lists of all of the race names entered
     
-    indiv_board_path = f'app/individualscores/indivboardseason{currentseason}.txt'
+    indiv_board_path = f'app/individualscores/indivboardseason{currentseason}.txt' #path to each individual race
 
     # step 1: Read and reset scores
-    reset_scores = []
+    reset_scores = [] 
 
     with open(indiv_board_path, 'r') as f:
         for line in f:
             athlete_id, _ = line.strip().split(':')  # Split line into athlete ID and score
             reset_scores.append(f'{athlete_id}:0')  # Reset score to 0
 
-# Step 2: Write the reset scores back to the file
+    # Step 2: Write the reset scores back to the file
     with open(indiv_board_path, 'w') as f:
         for entry in reset_scores:
-            f.write(entry + '\n')
+            f.write(entry + '\n') #I had to reset scores each time page is loaded, else each time someone POSTs the scores add onto themselves
 
     x = os.path.join('app', 'races', f'season{currentseason}')
     indivscoredict = {}
     with open(f'app/individualscores/indivboardseason{currentseason}.txt', 'r') as p:
                 for line in p:
                     athlete_id, score = line.strip().split(":")
-                    indivscoredict[athlete_id] = int(score)
+                    indivscoredict[athlete_id] = int(score) # assign the scores 0 to a dictionary so they can be changed
     for race in all_races:
-        file_path = f'{x}/{race}'
+        file_path = f'{x}/{race}' #getting the placings from the current races that exist
         with open(file_path, 'r') as f:
             next(f)
             for line in f:
-                placing, athlete_id = line.strip().split(':')
+                placing, athlete_id = line.strip().split(':') #split the delimited file
                 placing = int(placing)
                 if athlete_id in indivscoredict:
                     indivscoredict[athlete_id] += placing  # Add the placing to the current score
                 else:
-                    indivscoredict[athlete_id] = placing
+                    indivscoredict[athlete_id] = placing #if the athlete didn't race, nothing happesn
 
     with open(f'app/individualscores/indivboardseason{currentseason}.txt', 'w') as p:
         for athlete_id, score in indivscoredict.items():
-            p.write(f'{athlete_id}:{score}\n')
+            p.write(f'{athlete_id}:{score}\n') #write the freshly assigned scores back
 
-    scores = []
+    scores = [] #made for sorting reasons
 
     with open(f'app/individualscores/indivboardseason{currentseason}.txt', 'r') as f:
         for line in f:
             athlete_id, score = line.strip().split(':')
             scores.append((athlete_id, int(score)))
 
-    def bubble_sort(arr):
+    def bubble_sort(arr): #this is a devious bubble sort that I copied almost word for word from the textbook
+        # the bubble sort sorts the athletes by their schors
         n = len(arr)
         swapped = True
         pass_num = 0
@@ -569,16 +583,16 @@ def statspage():
             pass_num += 1
         return arr
 
-    bubble_sort(scores)
+    bubble_sort(scores) #yay sorted
 
-    with open(indiv_board_path, 'w') as f:
+    with open(indiv_board_path, 'w') as f:#write everything back
         for athlete_id, score in scores:
-            f.write(f'{athlete_id}:{score}\n')
+            f.write(f'{athlete_id}:{score}\n') #with the new updated, sorted scores
     
     #school standing for the season:
 
     
-    school_board_path = f'app/schoolscores/schoolboardseason{currentseason}.txt'
+    school_board_path = f'app/schoolscores/schoolboardseason{currentseason}.txt' #this is a route to the school standings leaderboard file
     athletes_path = "app/athletes.txt"
     fss = update_school_scores(currentseason, indiv_board_path, school_board_path, athletes_path)
     print(fss) 
@@ -604,33 +618,33 @@ from collections import defaultdict
 def update_school_scores(currentseason, indiv_board_path, school_board_path, athletes_path):
     # Step 1: Read all athlete data once
     athlete_schools = {}
-    with open(athletes_path, 'r') as f:
+    with open(athletes_path, 'r') as f: #athletes path is just athletes.txt
         for line in f:
             data = line.strip().split("|")
-            athlete_schools[data[2]] = data[4]
+            athlete_schools[data[2]] = data[4] #athlete code as key and then school as value
 
     # Step 2: Read individual scores and group by school
-    school_scores = defaultdict(list)
+    school_scores = defaultdict(list) #turns the school scores into a dictionary with a list of scores as their value
     with open(indiv_board_path, 'r') as f:
         for line in f:
             athlete_id, score = line.strip().split(':')
             school = athlete_schools.get(athlete_id)
             if school:
-                school_scores[school].append(int(score))
+                school_scores[school].append(int(score)) #get some school scores appended to the school key
                 print(school_scores)
 
     # Step 3: Calculate the top 4 scores for each school
     final_school_scores = {}
     for school, scores in school_scores.items():
-        top_scores = sorted(scores)[:4] #learnt a cool new way to sort stuff
+        top_scores = sorted(scores)[:4] #learnt a cool new way to sort stuff, this takes the top 4 scores so they can be summed
         print(top_scores) #checking to make sure my changes were doing what I wanted them to do.
         final_school_scores[school] = sum(top_scores)
 
     # Step 4: Update the school scores file
     with open(school_board_path, 'w') as f:
-        for school, total_score in final_school_scores.items():
+        for school, total_score in final_school_scores.items(): # final assignment of stuff
             f.write(f'{school}: {total_score}\n')
     
-    sorted_final_school_scores = dict(sorted(final_school_scores.items(), key=operator.itemgetter(1)))
+    sorted_final_school_scores = dict(sorted(final_school_scores.items(), key=operator.itemgetter(1))) # this sorts them from lowest to highest in a much easier way than my freaky bubble sort.
 
     return sorted_final_school_scores

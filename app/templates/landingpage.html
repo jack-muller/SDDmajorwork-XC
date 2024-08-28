@@ -6,13 +6,14 @@
     <body>
         <div class="container">
             <header>
-                <h1>XC Page</h1>
+                <h1>XC Page</h1> <!--title of the landing page-->
             </header>
             <main>
                 <h2>Welcome!</h2>
                 <p>The official page for GPS Cross Country, Statistic generation, Scoring systems and a live forum!</p>
                 <div class="button-container">
-                    <a href="{{ url_for('login') }}">
+                    <!--a button to take you to the login page, and one to take you to register-->
+                    <a href="{{ url_for('login') }}"> 
                         <button>Login</button>
                     </a>
                     <a href="{{ url_for('register') }}">

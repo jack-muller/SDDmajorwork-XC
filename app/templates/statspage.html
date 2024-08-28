@@ -3,11 +3,11 @@
 {% block content %}
 <main>
     <section>
-        <h1>Current individual standings for season {{currentseason}}</h1>
+        <h1>Current individual standings for season {{currentseason}}</h1> <!--passed in current season-->
         <ul class="standings-list">
             {% for athlete_id, score in indivscoredict.items() %}
             <li class="standings-item">
-                <span class="athlete">{{athlete_id}}</span>
+                <span class="athlete">{{athlete_id}}</span> <!--pretty self explanatory, nice way to display the individual scoring-->
                 <span class="score">{{score}}</span>
             </li>
             {% endfor %}
@@ -19,7 +19,7 @@
         <ul class="standings-list">
             {% for school, score in fss.items() %}
             <li class="standings-item">
-                <span class="school">{{school}}</span>
+                <span class="school">{{school}}</span> <!--a nice way to display all the school standings-->
                 <span class="score">{{score}}</span>
             </li>
             {% endfor %}

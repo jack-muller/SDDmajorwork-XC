@@ -5,14 +5,14 @@
 <h1>{{ race }}</h1>
 
 <ul>
-    {% for place,value in race_dict.items() %}
+    {% for place,value in race_dict.items() %} <!--this is pretty simple but just cycling through the placing and athlete codes/names to display them -->
     <li>
-        <span>{{place}} : {{value}}</span>
+        <span>{{place}} : {{value}}</span> <!--how good is jinja2 man-->
     </li>
     {% endfor %}
 </ul>
 
-<form action="{{ url_for('previousresults') }}" method="GET" style="display:inline;">
+<form action="{{ url_for('previousresults') }}" method="GET" style="display:inline;"> <!--back button-->
     <button type="submit">back</button>
 </form>
 

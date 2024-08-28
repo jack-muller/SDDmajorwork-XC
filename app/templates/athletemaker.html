@@ -4,7 +4,7 @@
 
 <h1>Admin things</h1>
 <div id="content">
-    {% if error_message %}
+    {% if error_message %} <!--gives alerts if there is an error, and has customised error messages passed in from the route-->
     <script>
         window.onload = function() {
             alert(`{{ error_message }}`)
