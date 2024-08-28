@@ -1,12 +1,13 @@
 from app import app
 import os
+import operator
 
 from flask import render_template, flash, redirect, url_for, request
 from flask import jsonify
 #from app.forms import LoginForm
 import bcrypt
 
-global rne
+global rne # this was the most logical way I could figure out to pass this important variable from one route to another.
 rne = ""
 # def load_users():
 #     users = []
@@ -41,9 +42,9 @@ rne = ""
 #         self.status = users[self.id]['status']
 
 @app.route('/')
-@app.route('/landingpage')
+@app.route('/landingpage') # this means that when the user starts up the page with http://whatever/, they will get sent to the landing page
 def landingpage():
-    return render_template('landingpage.html', title='landingpage')
+    return render_template('landingpage.html', title='landingpage') #renders the landing page template in templates
 
 
 @app.route('/home')
@@ -59,47 +60,49 @@ def home():
             'body': "what a ruckus"
         }
     ]
-    return render_template('home.html', title='Home', posts=posts, userCurrent=user)
+    return render_template('home.html', title='Home', posts=posts, userCurrent=user) # renders the home page template in templates
 
 
-@app.route('/login', methods=['POST', 'GET'])
+@app.route('/login', methods=['POST', 'GET'])  
 def login():
     # form = LoginForm()
     # return render_template('login.html', title='Login', form=form)
     print(f'{request.method}')
-    if (request.method == "POST"):
+    if (request.method == "POST"): # the method is POST after they submit the login form, and the submit button posts the data
         print(f'{request.method} I am in')
-        usernameEntered = request.form['lusername']
-        passwordEntered = request.form['lpassword']
+        usernameEntered = request.form['lusername'] # receives username
+        passwordEntered = request.form['lpassword'] # receives password
 
         passwordBytes = passwordEntered.encode('utf-8')
-        salt = b'$2b$12$terrycrewsisabigboy.Iu'
+        salt = b'$2b$12$terrycrewsisabigboy.Iu' # haha funny salt
         hashPassword = bcrypt.hashpw(passwordBytes, salt)
-        strHashPass = str(hashPassword)
-        f = open("app/users.txt", "r")
+        strHashPass = str(hashPassword) # one way encryption of passwords using bcrypt
+        f = open("app/users.txt", "r") # open the file that has all the users created by /register route.
         for i in f:
             v = i.split("|")
-            if (v[0] == usernameEntered):
-                if (strHashPass == v[1]):
-                    return redirect(url_for('home'))
+            if (v[0] == usernameEntered): #this if checks to find the username of the user
+                if (strHashPass == v[1]): #checks to see if their encrypted password is the same as the encrypted version of the password they added upon login.
+                    return redirect(url_for('home')) #if its sweet then you get sent to the homepage
         f.close()
-        return redirect(url_for('login'))
+        return redirect(url_for('login'))#if its not sweet you get sent back to login rip.
     else:
-        return render_template('login.html', title='Login')
+        return render_template('login.html', title='Login') # this is just for pageloading if you get the page by clicking another button somewhere (e.g. on landing page).
         
-@app.route('/register', methods=['POST', 'GET'])
+@app.route('/register', methods=['POST', 'GET']) 
 def register():
     # to register - the form must have first name, last name, username, password. 
     # It will write the blokes into the file
-    if (request.method == "POST"):
+    if (request.method == "POST"): # this will trigger after on the register page, someone submits their details
         print("we're in")
         with open("app/users.txt", "r+") as f:
             print("the file has been opened")
+            # all of this stuff below is just getting data from the submitted form
             newusername = request.form['rusername']
             newpassword = request.form['rpassword']
             newfirstname = request.form['rfname']
             newlastname = request.form['rlname']
             newadmintag = request.form['atag']
+            #all of these are booleans for validation purposes.
             newusernameCheck = True
             newpasswordCheck = True
             newusernametaken = False
@@ -107,7 +110,7 @@ def register():
             newlastnameCheck = True
             validadmintag = True
 
-            if validadmintag == True:
+            if validadmintag == True: # checking to make sure the people haven't said they're like 22's or something random.
                 print("checking if admin is a number")
                 if newadmintag in ['0', '1']:
                     print("yup")
@@ -116,7 +119,7 @@ def register():
                     print("wompwomp not a number")
 
 
-            if newusernameCheck == True:
+            if newusernameCheck == True: #makes sure the username doesn't have a character that is used as a delimiter later
                 print("im checking whether the username is sweet")
                 for i in newusername:
                     if i == '|':
@@ -124,7 +127,7 @@ def register():
                     else:
                         print("The username is sweet")
                         #pass
-                for i in f:
+                for i in f: #makes sure no-one else has the username, although the print statements I used for testing make that pretty clear
                     print("I'm checking whether someone else has the username")
                     v = i.split('|')
                     print(v)
@@ -137,7 +140,7 @@ def register():
                         print("nope not this person")
                         #pass     
                     
-            if newpasswordCheck == True:
+            if newpasswordCheck == True: #passwords can be anything, just not already used by someone else.
                 print("checking if the password is sweet")
                 for i in newpassword:
                     if i == '|':
@@ -147,7 +150,7 @@ def register():
                         print("the password is g")
                         #pass
             
-            if newfirstnameCheck == True:
+            if newfirstnameCheck == True: #firstname must be alphabetical, thus we check for that
                 print("Come over here I'm feeling alphanumerical")
                 if newfirstname.isalpha() == False:
                     newfirstnameCheck = False
@@ -156,7 +159,7 @@ def register():
                     print("your first name is alpha")
                     #pass
                     
-            if newlastnameCheck == True:
+            if newlastnameCheck == True: #last names must also be alphabetical. Yes I'm discriminating against Elon Musk's kid.
                     print("lemme check if your last name is alpha")
                     if newlastname.isalpha() == False:
                         newlastnameCheck = False
@@ -167,14 +170,14 @@ def register():
             
             print("all g we moving on")
 
-            def passwordencryptor(passwordEntered):
+            def passwordencryptor(passwordEntered): #this is where the passwords are encrypted so people with access to the users file can't steal other peoples password!
                 passwordBytes = passwordEntered.encode('utf-8')
                 salt = b'$2b$12$terrycrewsisabigboy.Iu'
                 hashPassword = bcrypt.hashpw(passwordBytes, salt)
                 strHashPass = str(hashPassword)
-                return strHashPass
+                return strHashPass #lovely :)
 
-
+            # checks to make sure all of the booleans are ok before writing to the file. If one fails then we shut the joint down.
             if newfirstnameCheck and newlastnameCheck and newpasswordCheck and newusernameCheck and validadmintag and not newusernametaken:
                 print("time to write to the file")
                 # write all of the things into a file:
@@ -182,32 +185,34 @@ def register():
                 #flash('Registration successful! Now you can log in!', 'success')
                 return redirect(url_for('login'))
             else:
+                #rahhh it failed >:( grrrr
                 print("the checks failed - the new account details are funky")
                 error_message = "Registration failed. Username might be same as someone elses, or other details may be incorrect."
-                return render_template('register.html', title='Register', error_message=error_message)
+                return render_template('register.html', title='Register', error_message=error_message) 
+                # I sent the error message through within the render_template to use the jinja2 stuff and create some changing error messages within the html file.
     else:
         # return redirect(url_for('login'))
         print('wee woo')
         #flash('ERROR. IDK WHAT HAPPENED', 'error')
-        return render_template('register.html', title='Register')
+        return render_template('register.html', title='Register') 
 
 
 @app.route('/athletemaker', methods=['POST', 'GET'])
 def athletemaker():
     if (request.method == "POST"):
         with open("app/athletes.txt", "a") as f:
-            firstname = request.form['fname']
-            lastname = request.form['lname']
-            athletenumber = request.form['acode']
-            agegroup = request.form['agegroup']
-            school = request.form['school']
-            athletenumbervalid = True
+            firstname = request.form['fname'] #gets firstname from form
+            lastname = request.form['lname'] #gets lastname from form
+            athletenumber = request.form['acode'] #gets athletecode from form
+            agegroup = request.form['agegroup'] #gets agegroup from form
+            school = request.form['school'] #school from form
+            athletenumbervalid = True #the dropdowns don't need validators as I can control their choices. 
             firstnamevalid = True
             lastnamevalid = True
 
-            if athletenumbervalid == True:
+            if athletenumbervalid == True: #validation for athlete code, which I just want to be a number
                     print("checking if athleteno. is a number")
-                    if athletenumber.isnumeric() == True:
+                    if athletenumber.isnumeric() == True: #thus I check whether its numeric
                         print("Athlete number is numeric")
                     else:
                         athletenumbervalid = False
@@ -215,21 +220,21 @@ def athletemaker():
             
             print('next')
             
-            if firstnamevalid == True:
-                if firstname.isalpha() == True:
+            if firstnamevalid == True: #is firstname alphabetic
+                if firstname.isalpha() == True:# yes
                     print("First name is alpha")
                 else:
-                    firstnamevalid = False
+                    firstnamevalid = False #no, change up that bool
                     print("First name isn't alpha")
             print('next')
-            if lastnamevalid == True:
+            if lastnamevalid == True: #is last name valid
                 if lastname.isalpha() == True:
                     print("Last name is alpha")
                 else:
-                    lastnamevalid = False
+                    lastnamevalid = False #reassign value
                     print("Last name is not alpha")
 
-            print(f'firstname: {firstname}')
+            print(f'firstname: {firstname}') # this stuff helped me to check the feedback and find where errors were during the coding process.
             print(f'is firstname valid: {firstnamevalid}')
             print(f'lastname: {lastname}')
             print(f'is last name valid: {lastnamevalid}')
@@ -238,37 +243,39 @@ def athletemaker():
             print(f'agegroup: {agegroup}')
             
 
-            if lastnamevalid and firstnamevalid and athletenumbervalid:
+            if lastnamevalid and firstnamevalid and athletenumbervalid: #check to make sure
                     print("time to write to the file")
                     # write all of the things into a file:
                     
-                    f.write(f'\n{firstname}|{lastname}|{athletenumber}|{agegroup}|{school}')
+                    f.write(f'\n{firstname}|{lastname}|{athletenumber}|{agegroup}|{school}') #yep thats good
                     #flash('Registration successful! Now you can log in!', 'success')
+                    #don't have to close it as I opened the file in a pythonic way :)
                     return render_template('athletemaker.html', title='Athlete Maker')
             else: 
                 print("the checks failed - the new account details are funky")
-                error_message = "athlete not valid"
-                return render_template('athletemaker.html', title='Athlete Maker', error_message=error_message)
+                error_message = "athlete not valid" # look its a cool personalised error message
+                return render_template('athletemaker.html', title='Athlete Maker', error_message=error_message) # error got passed in thru here.
     
     else:
         # return redirect(url_for('login'))
         print('wee woo')
-        return render_template('athletemaker.html', title='Athlete Maker')
+        return render_template('athletemaker.html', title='Athlete Maker') #if they want info passed to them, they GET it, therefore only page renders.
     
 
 @app.route('/previous_results', methods=['POST', 'GET'])
 def previousresults():
     if (request.method == "GET"):
-        seasondict = {}
-        currentseason = read_number()
-        for i in range(1, currentseason + 1):
-            season_dir = os.path.join('app', 'races', f'season{i}')
-            all_entries = os.listdir(season_dir)
-            seasondict[season_dir] = all_entries
+        seasondict = {} #season dictionary
+        currentseason = read_number() #this is important, so that I don't go out of range and also so I look through all of the files
+        for i in range(1, currentseason + 1): #look through all season files
+            season_dir = os.path.join('app', 'races', f'season{i}') #path for each season file from 1 to current
+            all_entries = os.listdir(season_dir) #all_entries is a list of all txt files in each folder.
+            seasondict[season_dir] = all_entries #make a dictionary relating the season folder to all of its races
         print(seasondict)
-        return render_template('previous_results.html', title='Previous Results', seasondict=seasondict)   
+        return render_template('previous_results.html', title='Previous Results', seasondict=seasondict) # send the dict through to the html page, where each file will be displayed by a jinja2 loop
     else:
-        seasondict = {}
+        #this is the same thing, I put it here because I didn't really know what to do but it broke nothing touch wood.
+        seasondict = {} 
         currentseason = read_number()
         for i in range(1, currentseason + 1):
             season_dir = os.path.join('app', 'races', f'season{i}')
@@ -277,37 +284,37 @@ def previousresults():
         print(seasondict)
         return render_template('previous_results.html', title='Previous Results', seasondict=seasondict)
 
-@app.route('/scorer', methods=['POST', 'GET'])
+@app.route('/scorer', methods=['POST', 'GET']) #scorer is a nav page, hasn't got much going for it
 def scorer():
     current_season = read_number()
-    return render_template('scorer.html', title='Scorer', number=current_season) 
+    return render_template('scorer.html', title='Scorer', number=current_season) #pass the current season in as the new season button will increment it.
 
-def read_number():
+def read_number(): # a function to return the current season, very helpful
     with open("app/season.txt", "r") as f:
         season_no = int(f.readline().strip())
     return season_no
 
-@app.route('/increment', methods=['POST'])
+@app.route('/increment', methods=['POST']) # functionality to increment the current season+1
 def increment():
-    new_number = read_number() + 1
-    write_number(new_number)
+    new_number = read_number() + 1 #increments
+    write_number(new_number) #writes it back to the file
 
     new_dir1 = os.path.join('app', 'races', f'season{new_number}')
-    os.makedirs(new_dir1, exist_ok=True)
+    os.makedirs(new_dir1, exist_ok=True) #makes a new file for the new season
     
-    transferathletes = []
+    transferathletes = [] #this is used to move all of the athletes to the next season folder, initialised with zero score.
     with open('app/athletes.txt', 'r') as f:
         for line in f:
             linelist = line.strip().split('|')
-            transferathletes.append(int(linelist[2]))
+            transferathletes.append(int(linelist[2])) #just gets the old athletes codes
 
-    race_file_path = os.path.join('app', 'individualscores', f'indivboardseason{new_number}.txt')
+    race_file_path = os.path.join('app', 'individualscores', f'indivboardseason{new_number}.txt')#makes a new leaderboard for individuals
     with open(race_file_path, 'a') as f:
-        for i in transferathletes:
+        for i in transferathletes: # move all of the athletes to the new leaderboard, making all scores 0 at the start of the new season
             f.write(f'{i}:0\n')
     
-    race_file_path = os.path.join('app', 'schoolscores', f'schoolboardseason{new_number}.txt')
-    with open(race_file_path, 'a') as f:
+    race_file_path = os.path.join('app', 'schoolscores', f'schoolboardseason{new_number}.txt') # new txt file for school leaderboard at the start of a new season
+    with open(race_file_path, 'a') as f: #in the new leaderboard file path, create a new leaderboard of schools with no scores
         f.write("Scots:0\n")
         f.write("Kings:0\n")
         f.write("Shore:0\n")
@@ -318,14 +325,14 @@ def increment():
         f.write("Joeys:0\n")
         
 
-    return jsonify({'number': new_number})
+    return jsonify({'number': new_number}) #returns the number so that the number underneath the new season button updaates.
 
-def read_number():
+def read_number(): #function to return the current season number, which has been used before
     with open("app/season.txt", "r") as f:
         season_no = int(f.readline().strip())
     return season_no
 
-def write_number(new_number):
+def write_number(new_number): # this function writes the new season number to the season.txt file
     f = open("app/season.txt", "w")
     f.write(f'{new_number}')
     pass
@@ -624,4 +631,6 @@ def update_school_scores(currentseason, indiv_board_path, school_board_path, ath
         for school, total_score in final_school_scores.items():
             f.write(f'{school}: {total_score}\n')
     
-    return final_school_scores
+    sorted_final_school_scores = dict(sorted(final_school_scores.items(), key=operator.itemgetter(1)))
+
+    return sorted_final_school_scores
