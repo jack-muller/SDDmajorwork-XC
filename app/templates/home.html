@@ -2,10 +2,29 @@
 
 {% block content %}
 
-<p>hello</p>
-<h1>Hi, {{ userCurrent.username }}!</h1>
-{% for post in posts %}
-<div><p>{{ post.author.username }} says: <b>{{post.body}}</b></p></div>
-{% endfor %}
+<h1>
+    Welcome to the GPS Cross Country Competition
+</h1>
+
+<main>
+    <h2>About This Website</h2>
+    <p>
+        This website is your go-to platform for tracking and managing results from the GPS Cross Country (XC) competition. 
+        Whether you're an athlete, coach, or spectator, our tools allow you to stay updated with individual and school standings 
+        throughout the season. View race results, track performance over time, and see how your school ranks against others.
+    </p>
+
+    <h2>A Brief History of GPS XC</h2>
+    <p>
+        The GPS (Great Public Schools) Cross Country competition is a storied tradition, bringing together the finest young 
+        athletes from some of the most prestigious schools in the region. Established over a century ago, the competition 
+        has evolved from humble beginnings into a highly anticipated event on the school sports calendar. Each year, 
+        athletes push their limits, not just for personal glory but also for the pride of their schools.
+    </p>
+</main>
+
+<footer>
+    © 2024 Jack Muller's XC Competition | No Rights Reserved
+</footer>
 
 {% endblock %}
