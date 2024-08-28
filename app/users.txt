@@ -1,16 +1,3 @@
 username|password|firstname|lastname|admintag
-john1234|b'$2b$12$terrycrewsisabigboy.Iu1QlGIpbQThohzX/C8HNen5qgNOGCVPm'|David|Lemon|1
-hello|b'$2b$12$terrycrewsisabigboy.IuyYM5xZq22oWOSZ0twdZtJeDi9QSA332'|bonjour|man|1
-toiletman|b'$2b$12$terrycrewsisabigboy.IuKOirHTeCrfdiF9GcdcRkYChButn88T6'|miles|carson|1
-yo|b'$2b$12$terrycrewsisabigboy.IuzyphLFyjbQ9x3Bu9XLzxxTk1FtLf6jC'|yoyo|ma|0
-when|b'$2b$12$terrycrewsisabigboy.IuLinFSu7fP/XMkOx1AKH5X02ApkhVqni'|did he|ask|1
-hello|b'$2b$12$terrycrewsisabigboy.IuyYM5xZq22oWOSZ0twdZtJeDi9QSA332'|bonjour|man|1
-connor|b'$2b$12$terrycrewsisabigboy.IuZQRkoArFYykIuAtHuJhETVlUfUyLBum'|connor|kellett|1
-hello|b'$2b$12$terrycrewsisabigboy.IuyYM5xZq22oWOSZ0twdZtJeDi9QSA332'|bonjour|carson|0
-yeet|b'$2b$12$terrycrewsisabigboy.IuyYM5xZq22oWOSZ0twdZtJeDi9QSA332'|frogman|manfrog|1
-hello|b'$2b$12$terrycrewsisabigboy.IuQgcl.ssm7h7UKgFlcHMz2OVmYdtQxKC'|dsgfhf|fdsgfhj|1
-hello|b'$2b$12$terrycrewsisabigboy.IuGktjRDpSM6miPcVAp6rLBbaG2r4ZokG'|dgsfhgjhkj,|dsgafhsgduhjt|1
-tong|b'$2b$12$terrycrewsisabigboy.IuLinFSu7fP/XMkOx1AKH5X02ApkhVqni'|toilet|aefsgrdht|1
-Alex|b'$2b$12$terrycrewsisabigboy.IuJPmtdb05yp/LQvTEiGcdRmkCgNQ6yIK'|Alexander |z|1
-batman|b'$2b$12$terrycrewsisabigboy.Iu2FzGvHvBNMuGnwwBYxvGidhu46D7hGe'|Bruce|Wayne|1
-df1|b'$2b$12$terrycrewsisabigboy.Iulj259WU6gGRh0RMPTPE82eFQxHkGFBG'|sddfs-|dsfdsg|22
+
+batman|b'$2b$12$terrycrewsisabigboy.Iu2FzGvHvBNMuGnwwBYxvGidhu46D7hGe'|Bruce|Wayne|0
