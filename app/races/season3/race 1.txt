@@ -1,2 +1,0 @@
-race 1|Junior|Mr Hield|Kings
-1:100000

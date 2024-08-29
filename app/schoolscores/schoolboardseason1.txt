@@ -1,8 +1,8 @@
-Kings: 17
-Grammar: 15
-Scots: 19
-Shore: 28
+Kings: 88
+Scots: 93
 Newington: 13
-Riverview: 15
-High: 16
-Joeys: 17
+High: 7
+Grammar: 3
+Shore: 0
+Riverview: 0
+Joeys: 0

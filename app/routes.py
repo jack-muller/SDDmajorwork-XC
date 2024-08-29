@@ -379,6 +379,7 @@ def read_number(): #wow never seen this before
 def beginscanning():
     print(f'{request.method} HIHIHIHI')
     if (request.method == "POST"):
+                
         athleteCode = request.form['athlete_code']
         racenameentered = rne
 
@@ -387,7 +388,8 @@ def beginscanning():
 
         os.makedirs(season_dir, exist_ok=True)
         race_file_path = os.path.join(season_dir, f'{racenameentered}.txt')
-        
+               
+        athletes_who_ran_list = []
         athInFile = False
         if check_athlete_code(athleteCode):
             with open(race_file_path, 'r') as f:
@@ -401,9 +403,10 @@ def beginscanning():
                 if athInFile == False:
                     with open(race_file_path, 'a') as f:
                         f.write(f"\n{get_next_place(race_file_path)}:{athleteCode}")
+                        athletes_who_ran_list.append(athleteCode)
                 noAthlete = False
         else:
-            noAthlete = True
+            noAthlete = True      
         
         with open(race_file_path, 'r') as f:
             lines = f.readlines()
@@ -539,14 +542,18 @@ def statspage():
     for race in all_races:
         file_path = f'{x}/{race}' #getting the placings from the current races that exist
         with open(file_path, 'r') as f:
+            total_racers = len(f.readlines())
+
+        with open(file_path, 'r') as f:
             next(f)
             for line in f:
                 placing, athlete_id = line.strip().split(':') #split the delimited file
                 placing = int(placing)
                 if athlete_id in indivscoredict:
-                    indivscoredict[athlete_id] += placing  # Add the placing to the current score
-                else:
-                    indivscoredict[athlete_id] = placing #if the athlete didn't race, nothing happesn
+                    # indivscoredict[athlete_id] += placing  # Add the placing to the current score
+                    indivscoredict[athlete_id] += (total_racers - placing) + 1
+                # else:
+                #     indivscoredict[athlete_id] = placing #if the athlete didn't race, nothing happesn
 
     with open(f'app/individualscores/indivboardseason{currentseason}.txt', 'w') as p:
         for athlete_id, score in indivscoredict.items():
@@ -560,7 +567,7 @@ def statspage():
             scores.append((athlete_id, int(score)))
 
     def bubble_sort(arr): #this is a devious bubble sort that I copied almost word for word from the textbook
-        # the bubble sort sorts the athletes by their schors
+        # the bubble sort sorts the athletes by their scores
         n = len(arr)
         swapped = True
         pass_num = 0
@@ -568,7 +575,7 @@ def statspage():
             swapped = False
             comparison = 0
             while comparison < n - 1 - pass_num:
-                if arr[comparison][1] > arr[comparison + 1][1]:
+                if arr[comparison][1] < arr[comparison + 1][1]:
                     # Swap the elements
                     arr[comparison], arr[comparison + 1] = arr[comparison + 1], arr[comparison]
                     swapped = True
@@ -589,6 +596,15 @@ def statspage():
     athletes_path = "app/athletes.txt"
     fss = update_school_scores(currentseason, indiv_board_path, school_board_path, athletes_path)
     print(fss) 
+
+    indivscoredictFinal = {}
+
+    for i in indivscoredict:
+        if indivscoredict[i] != 0:
+            # print(indivscoredict[i])
+            indivscoredictFinal[i] = indivscoredict[i]
+
+    indivscoredict = indivscoredictFinal
 
     return render_template('statspage.html', title="Statistics Page", indivscoredict=indivscoredict, currentseason=currentseason, fss=fss)
 
@@ -618,19 +634,24 @@ def update_school_scores(currentseason, indiv_board_path, school_board_path, ath
 
     # Step 2: Read individual scores and group by school
     school_scores = defaultdict(list) #turns the school scores into a dictionary with a list of scores as their value
-    with open(indiv_board_path, 'r') as f:
+    with open(indiv_board_path, 'r') as f: #opens the individual leaderboard file
         for line in f:
             athlete_id, score = line.strip().split(':')
             school = athlete_schools.get(athlete_id)
             if school:
                 school_scores[school].append(int(score)) #get some school scores appended to the school key
-                print(school_scores)
+        print(school_scores)       
 
     # Step 3: Calculate the top 4 scores for each school
     final_school_scores = {}
     for school, scores in school_scores.items():
-        top_scores = sorted(scores)[:4] #learnt a cool new way to sort stuff, this takes the top 4 scores so they can be summed
-        print(top_scores) #checking to make sure my changes were doing what I wanted them to do.
+        if len(scores) >= 4:
+            top_scores = sorted(scores)[-4:] #learnt a cool new way to sort stuff, this takes the top 4 scores so they can be summed
+        else:
+            top_scores = sorted(scores)
+        # print(sorted(scores))
+        # print("ADSADSAD")
+        # print(top_scores) #checking to make sure my changes were doing what I wanted them to do.
         final_school_scores[school] = sum(top_scores)
 
     # Step 4: Update the school scores file
@@ -638,6 +659,6 @@ def update_school_scores(currentseason, indiv_board_path, school_board_path, ath
         for school, total_score in final_school_scores.items(): # final assignment of stuff
             f.write(f'{school}: {total_score}\n')
     
-    sorted_final_school_scores = dict(sorted(final_school_scores.items(), key=operator.itemgetter(1))) # this sorts them from lowest to highest in a much easier way than my freaky bubble sort.
+    sorted_final_school_scores = dict(sorted(final_school_scores.items(), key=operator.itemgetter(1), reverse=True)) # this sorts them from lowest to highest in a much easier way than my freaky bubble sort.
 
     return sorted_final_school_scores

@@ -1,2 +1,0 @@
-race2|Junior|Alfred Pennyworth|Kings
-1:100000

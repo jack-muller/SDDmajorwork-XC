@@ -108,3 +108,8 @@ Trent|Cyclone|100106|Intermediate|Kings
 Max|Warrior|100107|Senior|Scots
 Zane|Griffin|100108|Junior|Newington
 tyrone|tyrone|100110|Junior|Scots
+herbet|dingle|100112|Senior|Grammar
+Kush|Lookman|100200|Intermediate|Joeys
+Jack|Mullerasd|100201|Junior|Scots
+Jules|Bobbynessnessishlly|100300|Senior|Scots
+Ubi|Kubi|100301|Intermediate|Scots

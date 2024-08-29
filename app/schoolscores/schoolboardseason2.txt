@@ -1,8 +1,8 @@
-Scots: 0
-Kings: 0
+Kings: 28
+Scots: 28
+Joeys: 10
 Shore: 0
 Newington: 0
 Grammar: 0
 Riverview: 0
 High: 0
-Joeys: 0

@@ -1,3 +1,3 @@
 username|password|firstname|lastname|admintag
-
 batman|b'$2b$12$terrycrewsisabigboy.Iu2FzGvHvBNMuGnwwBYxvGidhu46D7hGe'|Bruce|Wayne|0
+a|b'$2b$12$terrycrewsisabigboy.IuZDOUWd87fDq15fGc7SBHWgcpfgxJbYm'|a|a|0
