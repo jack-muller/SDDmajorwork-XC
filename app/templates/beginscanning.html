@@ -32,9 +32,6 @@
         {% for i in ath %} <!--jinja2 means that I can loop through the list of finished runners when each new one gets submitted-->
             <li class="runner-item">
                 <span>{{ i[0] }}: {{ i[2] }} ({{ i[1] }})</span> <!--adds their placing, their name and their code in brackets-->
-                <form action="{{ url_for('removerunner') }}" method="POST" style="display: inline;"> <!--this doesn't really do anything-->
-                    <button type="submit" class="btn thinbutton">Remove</button>
-                </form>    
             </li>
         {% endfor %}
     </ul>

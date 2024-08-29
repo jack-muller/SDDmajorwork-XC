@@ -379,51 +379,45 @@ def read_number(): #wow never seen this before
 def beginscanning():
     print(f'{request.method} HIHIHIHI')
     if (request.method == "POST"):
-        athleteCode = request.form['athlete_code'] #get entered athlete code upon post
-        racenameentered = rne #global variable clutch
+        athleteCode = request.form['athlete_code']
+        racenameentered = rne
 
-        currentseason = read_number() # wow thats new (not)
-        season_dir = os.path.join('app', 'races', f'season{currentseason}') #this is the current season file
+        currentseason = read_number()
+        season_dir = os.path.join('app', 'races', f'season{currentseason}')
 
         os.makedirs(season_dir, exist_ok=True)
-        race_file_path = os.path.join(season_dir, f'{racenameentered}.txt') #seen this before -_-
+        race_file_path = os.path.join(season_dir, f'{racenameentered}.txt')
         
-        # Initialize a flag to check if the athlete code is found in the file
         athInFile = False
-        if check_athlete_code(athleteCode): # Check if the athlete code is valid using the check_athlete_code function
-            with open(race_file_path, 'r') as f:# Open the race file for reading
-                linesOfFile = f.readlines() # Read all lines from the file  
-                for i in linesOfFile: # Iterate through each line in the file
-                    if ":" in i:# Check if the line contains a colon (which indicates a score entry)
-                        d = i.split(":")# Split the line by the colon to separate the score and athlete code
-                        print(d[1])# Print the athlete code (for debugging purposes)
-                        if d[1].strip() == athleteCode:# Check if the athlete code in the file matches the given athlete code
-                            # Set the flag to True if the athlete code is found
+        if check_athlete_code(athleteCode):
+            with open(race_file_path, 'r') as f:
+                linesOfFile = f.readlines()
+                for i in linesOfFile:
+                    if ":" in i:
+                        d = i.split(":")
+                        print(d[1])
+                        if d[1].strip() == athleteCode:
                             athInFile = True
-                 
-                if athInFile == False: # If the athlete code was not found in the file
-                    with open(race_file_path, 'a') as f: # Open the file for appending
-                        f.write(f"\n{get_next_place(race_file_path)}:{athleteCode}")# Write a new entry for the athlete at the next available place, assigning a score to them
-            
-                # Set the flag to indicate that the athlete was found
+                if athInFile == False:
+                    with open(race_file_path, 'a') as f:
+                        f.write(f"\n{get_next_place(race_file_path)}:{athleteCode}")
                 noAthlete = False
         else:
-            # Set the flag to indicate that the athlete code is not valid
             noAthlete = True
         
-        with open(race_file_path, 'r') as f: #open the race file again
-            lines = f.readlines() #lines is a list
-            athletes = [] # athletes is a list now too
+        with open(race_file_path, 'r') as f:
+            lines = f.readlines()
+            athletes = []
             for i in lines:
                 if ":" in i:
-                    d = i.split(":") #list of placing and athlete code
-                    print(d[1]) # get the athlete code
-                    d.append(get_athlete_name(d[1].strip())) #appends the athlete's name
-                    print(d[2]) #this their name
-                    athletes.append(d) #list of names
+                    d = i.split(":")
+                    print(d[1])
+                    d.append(get_athlete_name(d[1].strip()))
+                    print(d[2])
+                    athletes.append(d)
 
 
-        return render_template('beginscanning.html', title='Scanning', athInFile=athInFile, noAthlete=noAthlete, ath = athletes) #this stuff gets looped through in html file to constantly update the page
+        return render_template('beginscanning.html', title='Scanning', athInFile=athInFile, noAthlete=noAthlete, ath = athletes)
 
 
     else:
@@ -437,8 +431,7 @@ def check_athlete_code(athlete_code): # the logic for the function explained abo
             i = i.split("|")
             if i[2] == athlete_code:
                 return True
-            else:
-                return False
+    return False
 
 def get_athlete_name(athlete_code): #this returns the name of the athlete based on the athlete code that is passed in
     with open("app/athletes.txt", "r") as f:
