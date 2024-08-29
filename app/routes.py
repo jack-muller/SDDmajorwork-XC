@@ -213,6 +213,13 @@ def athletemaker():
             if athletenumbervalid == True: #validation for athlete code, which I just want to be a number
                     print("checking if athleteno. is a number")
                     if athletenumber.isnumeric() == True: #thus I check whether its numeric
+                        with open('app/athletes.txt', 'r') as f:
+                            for i in f.readlines():
+                                a = i.strip().split('|')
+                                if a[2] == athletenumber:
+                                    athletenumbervalid = False
+                                else:
+                                    print("You're sweet")
                         print("Athlete number is numeric")
                     else:
                         athletenumbervalid = False
@@ -246,8 +253,8 @@ def athletemaker():
             if lastnamevalid and firstnamevalid and athletenumbervalid: #check to make sure
                     print("time to write to the file")
                     # write all of the things into a file:
-                    
-                    f.write(f'\n{firstname}|{lastname}|{athletenumber}|{agegroup}|{school}') #yep thats good
+                    with open("app/athletes.txt", 'a') as f:
+                        f.write(f'\n{firstname}|{lastname}|{athletenumber}|{agegroup}|{school}') #yep thats good
                     #flash('Registration successful! Now you can log in!', 'success')
                     #don't have to close it as I opened the file in a pythonic way :)
                     return render_template('athletemaker.html', title='Athlete Maker')
